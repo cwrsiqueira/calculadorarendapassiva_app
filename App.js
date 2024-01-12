@@ -112,11 +112,6 @@ export default function App() {
     let investRecorrenteClean = investRecorrente.replace(/['.']/g, '').replace(',', '.');
     let taxaLiquidaClean = taxaLiquida.replace(/['.']/g, '').replace(',', '.');
 
-    console.log(investInicialClean);
-    console.log(investRecorrenteClean);
-    console.log(taxaLiquidaClean);
-    console.log(anos);
-
     const acumulado =
       investRecorrenteClean *
       ((Math.pow(1 + taxaLiquidaClean / 100, anos * 12) - 1) / (taxaLiquidaClean / 100)) + investInicialClean * Math.pow(1 + taxaLiquidaClean / 100, anos * 12);
@@ -160,7 +155,7 @@ export default function App() {
       <FlipCard>
         <FlipCardInner>
           <CalculadoraArea isFlipped={isFlipped}>
-            <CalculadoraLabel>Prazo (anos): {anos}</CalculadoraLabel>
+            <CalculadoraLabel>Prazo (anos): </CalculadoraLabel>
             <CalculadoraInput
               inputMode={'numeric'}
               onChange={(e) => setAnos(e.target.value)}
@@ -168,7 +163,7 @@ export default function App() {
               maxLength={2}
               value={anos}
             />
-            <CalculadoraLabel>Investimento Inicial ($):{investInicial}</CalculadoraLabel>
+            <CalculadoraLabel>Investimento Inicial ($): </CalculadoraLabel>
             <CalculadoraInput
               inputMode={'numeric'}
               onChange={(e) => setInvestInicial(formatarValor(e.target.value))}
@@ -176,7 +171,7 @@ export default function App() {
               maxLength={14}
               value={investInicial}
             />
-            <CalculadoraLabel>Investimento Recorrente ($):{investRecorrente}</CalculadoraLabel>
+            <CalculadoraLabel>Investimento Recorrente ($): </CalculadoraLabel>
             <CalculadoraInput
               inputMode={'numeric'}
               onChange={(e) => setInvestRecorrente(formatarValor(e.target.value))}
@@ -184,7 +179,7 @@ export default function App() {
               maxLength={14}
               value={investRecorrente}
             />
-            <CalculadoraLabel>Taxa Líquida (%): {taxaLiquida}</CalculadoraLabel>
+            <CalculadoraLabel>Taxa Líquida (%):  </CalculadoraLabel>
             <CalculadoraInput
               inputMode={'numeric'}
               onChange={(e) => setTaxaLiquida(formatarValor(e.target.value))}

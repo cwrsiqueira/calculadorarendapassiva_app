@@ -36,6 +36,10 @@ export default App = () => {
 
   const [isFlipped, setIsFlipped] = useState(false);
 
+  const secondInputRef = useRef(null);
+  const thirdInputRef = useRef(null);
+  const fourthInputRef = useRef(null);
+
   const handleCalc = () => {
     if ((!anos, !investInicial, !investRecorrente, !taxa)) {
       Alert.alert("Erro! Todos os campos são obrigatórios.");
@@ -95,10 +99,6 @@ export default App = () => {
     // Combina parte inteira e decimal com uma vírgula
     return `${parteInteira},${parteDecimal}`;
   };
-
-  const secondInputRef = useRef(null);
-  const thirdInputRef = useRef(null);
-  const fourthInputRef = useRef(null);
 
   return (
     <MainView>

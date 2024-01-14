@@ -1,243 +1,232 @@
-import { Alert, ScrollView } from "react-native";
-import { useState } from "react";
-import styled from "styled-components/native";
+import { useRef, useState } from "react";
+import {
+  Header,
+  MainView,
+  Footer,
+  Body,
+  LogoImage,
+  FlipCard,
+  CalcArea,
+  CalcLabel,
+  CalcInput,
+  CalcButton,
+  CalcButtonText,
+  ResultArea,
+  ResultTitle,
+  ResultLabel,
+  ResultText,
+  ResultLabelArea,
+  ResultButton,
+  ResultButtonText,
+  Divider,
+} from "./assets/css/style";
+import { Alert } from "react-native";
 
-export const LogoArea = styled.SafeAreaView`
-  align-items: center;
-  background-color: #f1f1f1;
-  margin-top: 20px;
-`;
-export const LogoImage = styled.Image`
-  width: 100px;
-  height: 100px;
-`;
-
-export const FlipCard = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  width: 100%;
-  perspective: 1000px;
-`;
-
-export const FlipCardInner = styled.View`
-  position: relative;
-  width: 100%;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-`;
-
-export const Result = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: #0cf;
-  backface-visibility: hidden;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-  ${(props) => (props.isFlipped ? "" : "transform: rotateY(180deg)")};
-`;
-
-export const ResultText = styled.Text`
-  margin-bottom: 12px;
-  text-align: center;
-  font-size: 16px;
-  text-align: center;
-  color: ${(props) => props.textColor || "#222"};
-`;
-
-export const CalculadoraArea = styled.SafeAreaView`
-  flex: 1;
-  justify-content: center;
-  padding-left: 10%;
-  width: 100%;
-  backface-visibility: hidden;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-  ${(props) => (props.isFlipped ? "transform: rotateY(-180deg)" : "")};
-`;
-
-export const CalculadoraLabel = styled.Text``;
-
-export const CalculadoraInput = styled.TextInput`
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  width: 90%;
-  margin-bottom: 12px;
-`;
-
-export const CalculadoraButton = styled.Pressable`
-  background-color: ${(props) => props.bg};
-  padding: 12px 6px;
-  border: 1px solid ${(props) => props.borderColor};
-  border-radius: 6px;
-  width: 90%;
-`;
-
-export const CalculadoraButtonText = styled.Text`
-  font-size: 16px;
-  text-align: center;
-  color: ${(props) => props.textColor};
-`;
-
-export const AdsArea = styled.SafeAreaView`
-  align-items: center;
-  background-color: #f1f1f1;
-  height: 100px;
-`;
-
-export default function App() {
-  const [anos, setAnos] = useState('');
-  const [investInicial, setInvestInicial] = useState('');
-  const [investRecorrente, setInvestRecorrente] = useState('');
-  const [taxaLiquida, setTaxaLiquida] = useState('');
-  const [isFlipped, setIsFlipped] = useState(false);
+export default App = () => {
+  const [anos, setAnos] = useState("");
+  const [investInicial, setInvestInicial] = useState("");
+  const [investRecorrente, setInvestRecorrente] = useState("");
+  const [taxa, setTaxa] = useState("");
 
   const [prazo, setPrazo] = useState(0);
   const [vlrAplicado, setVlrAplicado] = useState(0);
-  const [vlrAcumulado, setVlrAcumulado] = useState(0);
   const [vlrRendimentos, setVlrRendimentos] = useState(0);
+  const [vlrAcumulado, setVlrAcumulado] = useState(0);
   const [vlrRenda, setVlrRenda] = useState(0);
 
-  const handleCalc = () => {
+  const [isFlipped, setIsFlipped] = useState(false);
 
-    if (!anos, !investInicial, !investRecorrente, !taxaLiquida) {
-      Alert.alert('Erro! Todos os campos são obrigatórios.');
+  const handleCalc = () => {
+    if ((!anos, !investInicial, !investRecorrente, !taxa)) {
+      Alert.alert("Erro! Todos os campos são obrigatórios.");
       return;
     }
 
-    let investInicialClean = investInicial.replace(/['.']/g, '').replace(',', '.');
-    let investRecorrenteClean = investRecorrente.replace(/['.']/g, '').replace(',', '.');
-    let taxaLiquidaClean = taxaLiquida.replace(/['.']/g, '').replace(',', '.');
+    let investInicialClean;
+    if (investInicial)
+      investInicialClean = investInicial
+        .replace(/['.']/g, "")
+        .replace(",", ".");
+
+    let investRecorrenteClean;
+    if (investRecorrente)
+      investRecorrenteClean = investRecorrente
+        .replace(/['.']/g, "")
+        .replace(",", ".");
+
+    let taxaClean;
+    if (taxa) taxaClean = taxa.replace(/['.']/g, "").replace(",", ".");
 
     const acumulado =
       investRecorrenteClean *
-      ((Math.pow(1 + taxaLiquidaClean / 100, anos * 12) - 1) / (taxaLiquidaClean / 100)) + investInicialClean * Math.pow(1 + taxaLiquidaClean / 100, anos * 12);
+        ((Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100)) +
+      investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
 
     setPrazo(anos * 12);
-    setVlrAplicado(parseFloat(investInicialClean) + (investRecorrenteClean * (anos * 12)));
+    setVlrAplicado(
+      parseFloat(investInicialClean) + investRecorrenteClean * (anos * 12)
+    );
     setVlrAcumulado(acumulado);
-    setVlrRendimentos(acumulado - (investRecorrenteClean * (anos * 12)) - investInicialClean);
-    setVlrRenda(acumulado * (taxaLiquidaClean / 100));
+    setVlrRendimentos(
+      acumulado - investRecorrenteClean * (anos * 12) - investInicialClean
+    );
+    setVlrRenda(acumulado * (taxaClean / 100));
 
     setIsFlipped(!isFlipped);
   };
 
   const formatarValor = (valor) => {
     // Remover caracteres não numéricos e zeros à esquerda
-    valor = valor.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
+    valor = valor.replace(/[^0-9]/g, "").replace(/^0+(?=\d)/, "");
 
     // Se o valor estiver vazio após a remoção, retorna string vazia
-    if (valor == 0) return '';
+    if (valor == 0) return "";
 
     // Adiciona zeros à esquerda se necessário para garantir pelo menos 3 dígitos
-    valor = valor.padStart(3, '0');
+    valor = valor.padStart(3, "0");
 
     // Separa parte inteira e decimal
     let parteInteira = valor.slice(0, -2);
     let parteDecimal = valor.slice(-2);
 
     // Adiciona pontos como separadores de milhar na parte inteira
-    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
     // Combina parte inteira e decimal com uma vírgula
     return `${parteInteira},${parteDecimal}`;
   };
 
+  const secondInputRef = useRef(null);
+  const thirdInputRef = useRef(null);
+  const fourthInputRef = useRef(null);
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <LogoArea>
+    <MainView>
+      <Header>
         <LogoImage source={require("./assets/logo.png")} />
-      </LogoArea>
-      <FlipCard>
-        <FlipCardInner>
-          <CalculadoraArea isFlipped={isFlipped}>
-            <CalculadoraLabel>Prazo (anos): </CalculadoraLabel>
-            <CalculadoraInput
-              inputMode={'numeric'}
-              onChange={(e) => setAnos(e.target.value)}
-              placeholder="Ex. 25"
-              maxLength={2}
+      </Header>
+      <Body>
+        <FlipCard>
+          <CalcArea isFlipped={isFlipped}>
+            <CalcLabel>Prazo (anos): </CalcLabel>
+            <CalcInput
+              placeholder="Ex.: 25"
+              onChangeText={(val) => setAnos(val)}
               value={anos}
+              keyboardType="numeric"
+              returnKeyType="next"
+              onSubmitEditing={() => secondInputRef.current.focus()}
+              blurOnSubmit={false}
+              maxLength={2}
             />
-            <CalculadoraLabel>Investimento Inicial ($): </CalculadoraLabel>
-            <CalculadoraInput
-              inputMode={'numeric'}
-              onChange={(e) => setInvestInicial(formatarValor(e.target.value))}
-              placeholder="Ex. 50.000,00"
-              maxLength={14}
+            <CalcLabel>Investimento Inicial ($): </CalcLabel>
+            <CalcInput
+              ref={secondInputRef}
+              placeholder="Ex.: 50.000,00"
+              onChangeText={(val) => setInvestInicial(formatarValor(val))}
               value={investInicial}
-            />
-            <CalculadoraLabel>Investimento Recorrente ($): </CalculadoraLabel>
-            <CalculadoraInput
-              inputMode={'numeric'}
-              onChange={(e) => setInvestRecorrente(formatarValor(e.target.value))}
-              placeholder="Ex. 5.000,00"
+              keyboardType="numeric"
+              returnKeyType="next"
+              onSubmitEditing={() => thirdInputRef.current.focus()}
+              blurOnSubmit={false}
               maxLength={14}
+            />
+            <CalcLabel>Investimento Recorrente ($): </CalcLabel>
+            <CalcInput
+              ref={thirdInputRef}
+              placeholder="Ex.: 2.500,00"
+              onChangeText={(val) => setInvestRecorrente(formatarValor(val))}
               value={investRecorrente}
+              keyboardType="numeric"
+              returnKeyType="next"
+              onSubmitEditing={() => fourthInputRef.current.focus()}
+              blurOnSubmit={false}
+              maxLength={14}
             />
-            <CalculadoraLabel>Taxa Líquida (%):  </CalculadoraLabel>
-            <CalculadoraInput
-              inputMode={'numeric'}
-              onChange={(e) => setTaxaLiquida(formatarValor(e.target.value))}
-              placeholder="Ex. 1,25"
+            <CalcLabel>Taxa Líquida Mensal (%): </CalcLabel>
+            <CalcInput
+              ref={fourthInputRef}
+              placeholder="Ex.: 1,00"
+              onChangeText={(val) => setTaxa(formatarValor(val))}
+              value={taxa}
+              keyboardType="numeric"
+              returnKeyType="next"
               maxLength={5}
-              value={taxaLiquida}
             />
-            <CalculadoraButton
-              onPress={handleCalc}
-              bg={"#198754"}
-              borderColor={"#198754"}
-            >
-              <CalculadoraButtonText textColor={"#fff"}>
-                Calcular
-              </CalculadoraButtonText>
-            </CalculadoraButton>
-          </CalculadoraArea>
-          <Result isFlipped={isFlipped}>
-            <ResultText>Resultado</ResultText>
-            <ResultText>{prazo} meses</ResultText>
-            <ResultText>
-              Valor aplicado: ${" "}
-              {vlrAplicado.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </ResultText>
-            <ResultText>
-              Valor rendimentos: ${" "}
-              {vlrRendimentos.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </ResultText>
-            <ResultText>
-              Valor acumulado: ${" "}
-              {vlrAcumulado.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </ResultText>
-            <ResultText>
-              Valor renda passiva: ${" "}
-              {vlrRenda.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </ResultText>
-            <CalculadoraButton borderColor={"#0cf"} onPress={handleCalc}>
-              <CalculadoraButtonText textColor={"#0cf"}>
-                Refazer Cálculo
-              </CalculadoraButtonText>
-            </CalculadoraButton>
-          </Result>
-        </FlipCardInner>
-      </FlipCard>
-
-      <AdsArea />
-    </ScrollView>
+            <CalcButton onPress={handleCalc}>
+              <CalcButtonText>Calcular</CalcButtonText>
+            </CalcButton>
+          </CalcArea>
+          <ResultArea isFlipped={isFlipped}>
+            <ResultTitle>Resultados</ResultTitle>
+            <ResultLabelArea>
+              <ResultLabel>Prazo:</ResultLabel>
+              <ResultText>{prazo} meses</ResultText>
+            </ResultLabelArea>
+            <Divider />
+            <ResultLabelArea>
+              <ResultLabel>Valor Aplicado:</ResultLabel>
+              <ResultText>
+                ${" "}
+                {vlrAplicado.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                })}
+              </ResultText>
+            </ResultLabelArea>
+            <Divider />
+            <ResultLabelArea>
+              <ResultLabel>Rendimentos:</ResultLabel>
+              <ResultText>
+                ${" "}
+                {vlrRendimentos.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                })}
+              </ResultText>
+            </ResultLabelArea>
+            <Divider />
+            <ResultLabelArea>
+              <ResultLabel>Valor Acumulado:</ResultLabel>
+              <ResultText>
+                ${" "}
+                {vlrAcumulado.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                })}
+              </ResultText>
+            </ResultLabelArea>
+            <Divider />
+            <ResultLabelArea>
+              <ResultLabel>Taxa Mensal:</ResultLabel>
+              <ResultText>
+                {taxa.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                }) || "0.00"}
+                %
+              </ResultText>
+            </ResultLabelArea>
+            <Divider />
+            <ResultLabelArea>
+              <ResultLabel>Valor da Renda Passiva:</ResultLabel>
+              <ResultText>
+                ${" "}
+                {vlrRenda.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                })}{" "}
+                por mês
+              </ResultText>
+            </ResultLabelArea>
+            <Divider />
+            <ResultButton onPress={() => setIsFlipped(false)}>
+              <ResultButtonText>Refazer Cálculo</ResultButtonText>
+            </ResultButton>
+          </ResultArea>
+        </FlipCard>
+      </Body>
+      <Footer></Footer>
+    </MainView>
   );
-}
+};

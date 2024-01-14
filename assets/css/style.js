@@ -63,11 +63,12 @@ export const CalcInput = styled.TextInput`
 export const CalcButton = styled.Pressable`
   height: 40px;
   width: 90%;
-  background-color: #0cf;
+  background-color: ${(props) => props.bg || "#0cf"};
   border-radius: 6px;
   color: white;
   justify-content: center;
   align-items: center;
+  margin-bottom: 15px;
 `;
 
 export const CalcButtonText = styled.Text`
@@ -96,17 +97,17 @@ export const ResultTitle = styled.Text`
 
 export const ResultLabelArea = styled.View`
   flex-direction: row;
-  height: 30px;
+  height: 50px;
   width: 90%;
 `;
 
 export const ResultLabel = styled.Text`
-  height: 30px;
+  height: 50px;
   width: 50%;
 `;
 
 export const ResultText = styled.Text`
-  height: 30px;
+  height: 50px;
   width: 50%;
 `;
 

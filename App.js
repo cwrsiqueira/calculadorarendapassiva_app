@@ -54,7 +54,45 @@ export default App = () => {
     }
 
     if (!anos) {
-      Alert.alert("Calcular Prazo. Em breve, aguarde...");
+      let rendaClean = renda.replace(/['.']/g, "").replace(",", ".");
+      let taxaClean = taxa.replace(/[['.']/g, "").replace(",", ".");
+      let investInicialClean = investInicial
+        .replace(/['.']/g, "")
+        .replace(",", ".");
+      let investRecorrenteClean = investRecorrente
+        .replace(/['.']/g, "")
+        .replace(",", ".");
+
+      let vlrAtual = investInicialClean;
+      let montante = rendaClean / (taxaClean / 100);
+      let loop = 0;
+      let continuar = true;
+
+      while (continuar) {
+        if (
+          vlrAtual * (1 + taxaClean / 100) + parseFloat(investRecorrenteClean) <
+          montante
+        ) {
+          vlrAtual =
+            vlrAtual * (1 + taxaClean / 100) +
+            parseFloat(investRecorrenteClean);
+        } else {
+          continuar = false;
+        }
+        loop++;
+      }
+
+      setPrazo(loop - 1);
+      setVlrAplicado(
+        parseFloat(investInicialClean) + investRecorrenteClean * (loop - 1)
+      );
+      setVlrAcumulado(vlrAtual);
+      setVlrRendimentos(
+        vlrAtual - investRecorrenteClean * (loop - 1) - investInicialClean
+      );
+      setVlrRenda(vlrAtual * (taxaClean / 100));
+
+      setIsFlipped(!isFlipped);
       return;
     }
 
@@ -103,9 +141,10 @@ export default App = () => {
         acumulado - investRecorrenteClean * (anos * 12) - investInicialClean
       );
       setVlrRenda(acumulado * (taxaClean / 100));
-    }
 
-    setIsFlipped(!isFlipped);
+      setIsFlipped(!isFlipped);
+      return;
+    }
   };
 
   const formatarValor = (valor) => {
@@ -127,6 +166,14 @@ export default App = () => {
 
     // Combina parte inteira e decimal com uma vírgula
     return `${parteInteira},${parteDecimal}`;
+  };
+
+  const handleClean = () => {
+    setAnos("");
+    setInvestInicial("");
+    setInvestRecorrente("");
+    setTaxa("");
+    setRenda("");
   };
 
   return (
@@ -196,13 +243,37 @@ export default App = () => {
             <CalcButton onPress={handleCalc}>
               <CalcButtonText>Calcular</CalcButtonText>
             </CalcButton>
+            <CalcButton onPress={handleClean} bg={"red"}>
+              <CalcButtonText>Limpar</CalcButtonText>
+            </CalcButton>
           </CalcArea>
 
           <ResultArea isFlipped={isFlipped}>
             <ResultTitle>Resultados</ResultTitle>
             <ResultLabelArea>
               <ResultLabel>Prazo:</ResultLabel>
-              <ResultText>{prazo} meses</ResultText>
+              <ResultText>
+                {Math.floor(prazo / 12) > 0 && Math.floor(prazo / 12) + " ano"}
+                {Math.floor(prazo / 12) > 0
+                  ? Math.floor(prazo / 12) == 1
+                    ? ""
+                    : "s"
+                  : ""}
+                {Math.floor(prazo / 12) > 0 &&
+                prazo - Math.floor(prazo / 12) * 12 > 0
+                  ? " e "
+                  : ""}
+                {prazo - Math.floor(prazo / 12) * 12 > 0
+                  ? prazo - Math.floor(prazo / 12) * 12 == 1
+                    ? prazo - Math.floor(prazo / 12) * 12 + " mês"
+                    : prazo - Math.floor(prazo / 12) * 12 + " meses"
+                  : ""}
+                {Math.floor(prazo / 12) > 0
+                  ? prazo == 1
+                    ? "\nou " + prazo + " mês"
+                    : "\nou " + prazo + " meses"
+                  : ""}
+              </ResultText>
             </ResultLabelArea>
             <Divider />
             <ResultLabelArea>

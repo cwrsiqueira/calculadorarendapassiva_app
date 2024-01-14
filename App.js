@@ -54,22 +54,22 @@ export default App = () => {
     }
 
     if (!anos) {
-      Alert.alert("calcular prazo");
+      Alert.alert("Calcular Prazo. Em breve, aguarde...");
       return;
     }
 
     if (!investInicial) {
-      Alert.alert("calcular investimento inicial");
+      Alert.alert("Calcular Investimento Inicial. Em breve, aguarde...");
       return;
     }
 
     if (!investRecorrente) {
-      Alert.alert("calcular investimento recorrente");
+      Alert.alert("Calcular Investimento Recorrente. Em breve, aguarde...");
       return;
     }
 
     if (!taxa) {
-      Alert.alert("calcular taxa");
+      Alert.alert("Calcular Taxa. Em breve, aguarde...");
       return;
     }
 

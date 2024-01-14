@@ -250,9 +250,9 @@ export default App = () => {
 
           <ResultArea isFlipped={isFlipped}>
             <ResultTitle>Resultados</ResultTitle>
-            <ResultLabelArea>
-              <ResultLabel>Prazo:</ResultLabel>
-              <ResultText>
+            <ResultLabelArea style={{ height: 60 }}>
+              <ResultLabel style={{ height: 60 }}>Prazo:</ResultLabel>
+              <ResultText style={{ height: 60 }}>
                 {Math.floor(prazo / 12) > 0 && Math.floor(prazo / 12) + " ano"}
                 {Math.floor(prazo / 12) > 0
                   ? Math.floor(prazo / 12) == 1
@@ -320,9 +320,11 @@ export default App = () => {
               </ResultText>
             </ResultLabelArea>
             <Divider />
-            <ResultLabelArea>
-              <ResultLabel>Valor da Renda Passiva:</ResultLabel>
-              <ResultText>
+            <ResultLabelArea style={{ height: 50 }}>
+              <ResultLabel style={{ height: 50 }}>
+                Valor da Renda Passiva:
+              </ResultLabel>
+              <ResultText style={{ height: 50 }}>
                 ${" "}
                 {vlrRenda.toLocaleString(undefined, {
                   maximumFractionDigits: 2,

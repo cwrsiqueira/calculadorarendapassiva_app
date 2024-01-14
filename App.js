@@ -20,13 +20,14 @@ import {
   ResultButtonText,
   Divider,
 } from "./assets/css/style";
-import { Alert } from "react-native";
+import { Alert, ScrollView } from "react-native";
 
 export default App = () => {
   const [anos, setAnos] = useState("");
   const [investInicial, setInvestInicial] = useState("");
   const [investRecorrente, setInvestRecorrente] = useState("");
   const [taxa, setTaxa] = useState("");
+  const [renda, setRenda] = useState("");
 
   const [prazo, setPrazo] = useState(0);
   const [vlrAplicado, setVlrAplicado] = useState(0);
@@ -39,42 +40,70 @@ export default App = () => {
   const secondInputRef = useRef(null);
   const thirdInputRef = useRef(null);
   const fourthInputRef = useRef(null);
+  const fifthInputRef = useRef(null);
 
   const handleCalc = () => {
-    if ((!anos, !investInicial, !investRecorrente, !taxa)) {
-      Alert.alert("Erro! Todos os campos são obrigatórios.");
+    if (!anos && !investInicial && !investRecorrente && !taxa && !renda) {
+      Alert.alert("Erro! Deixe apenas 1 campo em branco para calculá-lo.");
       return;
     }
 
-    let investInicialClean;
-    if (investInicial)
-      investInicialClean = investInicial
-        .replace(/['.']/g, "")
-        .replace(",", ".");
+    if (anos && investInicial && investRecorrente && taxa && renda) {
+      Alert.alert("Erro! Deixe pelo menos 1 campo em branco para calculá-lo.");
+      return;
+    }
 
-    let investRecorrenteClean;
-    if (investRecorrente)
-      investRecorrenteClean = investRecorrente
-        .replace(/['.']/g, "")
-        .replace(",", ".");
+    if (!anos) {
+      Alert.alert("calcular prazo");
+      return;
+    }
 
-    let taxaClean;
-    if (taxa) taxaClean = taxa.replace(/['.']/g, "").replace(",", ".");
+    if (!investInicial) {
+      Alert.alert("calcular investimento inicial");
+      return;
+    }
 
-    const acumulado =
-      investRecorrenteClean *
-        ((Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100)) +
-      investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
+    if (!investRecorrente) {
+      Alert.alert("calcular investimento recorrente");
+      return;
+    }
 
-    setPrazo(anos * 12);
-    setVlrAplicado(
-      parseFloat(investInicialClean) + investRecorrenteClean * (anos * 12)
-    );
-    setVlrAcumulado(acumulado);
-    setVlrRendimentos(
-      acumulado - investRecorrenteClean * (anos * 12) - investInicialClean
-    );
-    setVlrRenda(acumulado * (taxaClean / 100));
+    if (!taxa) {
+      Alert.alert("calcular taxa");
+      return;
+    }
+
+    if (!renda) {
+      let investInicialClean;
+      if (investInicial)
+        investInicialClean = investInicial
+          .replace(/['.']/g, "")
+          .replace(",", ".");
+
+      let investRecorrenteClean;
+      if (investRecorrente)
+        investRecorrenteClean = investRecorrente
+          .replace(/['.']/g, "")
+          .replace(",", ".");
+
+      let taxaClean;
+      if (taxa) taxaClean = taxa.replace(/['.']/g, "").replace(",", ".");
+
+      const acumulado =
+        investRecorrenteClean *
+          ((Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100)) +
+        investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
+
+      setPrazo(anos * 12);
+      setVlrAplicado(
+        parseFloat(investInicialClean) + investRecorrenteClean * (anos * 12)
+      );
+      setVlrAcumulado(acumulado);
+      setVlrRendimentos(
+        acumulado - investRecorrenteClean * (anos * 12) - investInicialClean
+      );
+      setVlrRenda(acumulado * (taxaClean / 100));
+    }
 
     setIsFlipped(!isFlipped);
   };
@@ -101,7 +130,7 @@ export default App = () => {
   };
 
   return (
-    <MainView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Header>
         <LogoImage source={require("./assets/logo.png")} />
       </Header>
@@ -151,12 +180,24 @@ export default App = () => {
               value={taxa}
               keyboardType="numeric"
               returnKeyType="next"
+              onSubmitEditing={() => fifthInputRef.current.focus()}
+              blurOnSubmit={false}
               maxLength={5}
+            />
+            <CalcLabel>Valor da Renda Passiva Desejada ($): </CalcLabel>
+            <CalcInput
+              ref={fifthInputRef}
+              placeholder="Ex.: 50.000,00"
+              onChangeText={(val) => setRenda(formatarValor(val))}
+              value={renda}
+              keyboardType="numeric"
+              maxLength={14}
             />
             <CalcButton onPress={handleCalc}>
               <CalcButtonText>Calcular</CalcButtonText>
             </CalcButton>
           </CalcArea>
+
           <ResultArea isFlipped={isFlipped}>
             <ResultTitle>Resultados</ResultTitle>
             <ResultLabelArea>
@@ -227,6 +268,6 @@ export default App = () => {
         </FlipCard>
       </Body>
       <Footer></Footer>
-    </MainView>
+    </ScrollView>
   );
 };

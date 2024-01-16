@@ -64,7 +64,7 @@ export const CalcInput = styled.TextInput`
 export const CalcButton = styled.Pressable`
   height: 35px;
   width: 90%;
-  background-color: ${(props) => props.bg || "#0cf"};
+  background-color: ${(props) => props.bg || "green"};
   border-radius: 6px;
   color: white;
   justify-content: center;
@@ -115,7 +115,7 @@ export const ResultText = styled.Text`
 export const ResultButton = styled.Pressable`
   height: 40px;
   width: 90%;
-  background-color: #0cf;
+  background-color: green;
   border-radius: 6px;
   color: white;
   justify-content: center;

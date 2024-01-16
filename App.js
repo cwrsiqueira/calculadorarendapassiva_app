@@ -32,7 +32,8 @@ export default App = () => {
   const [vlrTotalAplicado, setVlrTotalAplicado] = useState(0);
   const [vlrInicialAplicado, setVlrInicialAplicado] = useState(0);
   const [vlrRecorrenteAplicado, setVlrRecorrenteAplicado] = useState(0);
-  const [vlrRecorrenteAplicadoTotal, setVlrRecorrenteAplicadoTotal] = useState(0);
+  const [vlrRecorrenteAplicadoTotal, setVlrRecorrenteAplicadoTotal] =
+    useState(0);
   const [vlrRendimentos, setVlrRendimentos] = useState(0);
   const [vlrAcumulado, setVlrAcumulado] = useState(0);
   const [vlrRenda, setVlrRenda] = useState(0);
@@ -45,12 +46,11 @@ export default App = () => {
   const fifthInputRef = useRef(null);
 
   const handleCalc = () => {
-
     let investInicialClean;
     if (investInicial) investInicialClean = limparValor(investInicial);
 
     let investRecorrenteClean;
-    if (investRecorrente) investRecorrenteClean = limparValor(investRecorrente)
+    if (investRecorrente) investRecorrenteClean = limparValor(investRecorrente);
 
     let taxaClean;
     if (taxa) taxaClean = limparValor(taxa);
@@ -75,9 +75,7 @@ export default App = () => {
           vlrAtual * (1 + taxaClean / 100) + investRecorrenteClean <
           montante
         ) {
-          vlrAtual =
-            vlrAtual * (1 + taxaClean / 100) +
-            investRecorrenteClean;
+          vlrAtual = vlrAtual * (1 + taxaClean / 100) + investRecorrenteClean;
         } else {
           continuar = false;
         }
@@ -90,7 +88,8 @@ export default App = () => {
       let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
       let newAplicadoTotal = newAplicadoInicial + newAplicadoRecorrenteTotal;
       let newAcumulado = parseFloat(vlrAtual.toFixed(2));
-      let newRendimentos = newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
+      let newRendimentos =
+        newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
 
       setPrazo(newPrazo);
@@ -108,10 +107,10 @@ export default App = () => {
 
     // Calcular Investimento Inicial
     else if (anos && !investInicial && investRecorrente && taxa && renda) {
-
-      let montante = (rendaClean / (taxaClean / 100));
-      let taxaAtualizada = Math.pow((1 + (taxaClean / 100)), (anos * 12));
-      let investRecorrenteAtualizado = (investRecorrenteClean * ((taxaAtualizada - 1) / (taxaClean / 100)));
+      let montante = rendaClean / (taxaClean / 100);
+      let taxaAtualizada = Math.pow(1 + taxaClean / 100, anos * 12);
+      let investRecorrenteAtualizado =
+        investRecorrenteClean * ((taxaAtualizada - 1) / (taxaClean / 100));
       let investInicialAtualizado = montante - investRecorrenteAtualizado;
       let investInicial = investInicialAtualizado / taxaAtualizada;
 
@@ -121,7 +120,8 @@ export default App = () => {
       let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
       let newAplicadoTotal = newAplicadoInicial + newAplicadoRecorrenteTotal;
       let newAcumulado = parseFloat(montante.toFixed(2));
-      let newRendimentos = newAcumulado - (newAplicadoRecorrente * newPrazo) - newAplicadoInicial;
+      let newRendimentos =
+        newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
 
       setPrazo(newPrazo);
@@ -139,10 +139,11 @@ export default App = () => {
 
     // Calcular Investimento Recorrente
     else if (anos && investInicial && !investRecorrente && taxa && renda) {
-
-      let montante = ((rendaClean / (taxaClean / 100)));
-      let investInicialCalc = investInicialClean * Math.pow((1 + (taxaClean / 100)), (anos * 12));
-      let taxaCalc = ((Math.pow((1 + (taxaClean / 100)), (anos * 12)) - 1) / (taxaClean / 100));
+      let montante = rendaClean / (taxaClean / 100);
+      let investInicialCalc =
+        investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
+      let taxaCalc =
+        (Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100);
 
       let investRecorrente = (montante - investInicialCalc) / taxaCalc;
 
@@ -152,7 +153,8 @@ export default App = () => {
       let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
       let newAplicadoTotal = newAplicadoInicial + newAplicadoRecorrenteTotal;
       let newAcumulado = parseFloat(montante.toFixed(2));
-      let newRendimentos = newAcumulado - (newAplicadoRecorrente * newPrazo) - newAplicadoInicial;
+      let newRendimentos =
+        newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
 
       setPrazo(newPrazo);
@@ -181,20 +183,28 @@ export default App = () => {
           ((Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100)) +
         investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
 
-      setPrazo(anos * 12);
-      setVlrInicialAplicado(parseFloat(investInicialClean));
-      setVlrRecorrenteAplicado(parseFloat(investRecorrenteClean));
-      setVlrAcumulado(acumulado);
-      setVlrRendimentos(
-        acumulado - investRecorrenteClean * (anos * 12) - investInicialClean
-      );
-      setVlrRenda(acumulado * (taxaClean / 100));
+      let newPrazo = anos * 12;
+      let newAplicadoInicial = investInicialClean;
+      let newAplicadoRecorrente = investRecorrenteClean;
+      let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
+      let newAplicadoTotal = newAplicadoInicial + newAplicadoRecorrenteTotal;
+      let newAcumulado = parseFloat(acumulado.toFixed(2));
+      let newRendimentos =
+        newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
+      let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
+
+      setPrazo(newPrazo);
+      setVlrInicialAplicado(newAplicadoInicial);
+      setVlrRecorrenteAplicado(newAplicadoRecorrente);
+      setVlrRecorrenteAplicadoTotal(newAplicadoRecorrenteTotal);
+      setVlrTotalAplicado(newAplicadoTotal);
+      setVlrAcumulado(newAcumulado);
+      setVlrRendimentos(newRendimentos);
+      setVlrRenda(newRenda);
 
       setIsFlipped(!isFlipped);
       return;
-    }
-
-    else {
+    } else {
       Alert.alert("Erro! Deixe apenas 1 campo em branco para calculá-lo.");
       return;
     }
@@ -223,7 +233,7 @@ export default App = () => {
 
   const limparValor = (valor) => {
     return parseFloat(valor.replace(/['.']/g, "").replace(",", "."));
-  }
+  };
 
   const handleClean = () => {
     setAnos("");
@@ -297,10 +307,18 @@ export default App = () => {
               keyboardType="numeric"
               maxLength={14}
             />
-            {renda &&
-              taxa &&
-              <CalcLabel>Valor Acumulado Desejado: { (limparValor(renda) / (limparValor(taxa) / 100)).toLocaleString(undefined, {maximumFractionDigits:2, minimumFractionDigits:2}) }</CalcLabel>
-            }
+            {renda && taxa && (
+              <CalcLabel>
+                Valor Acumulado Desejado:{" "}
+                {(
+                  limparValor(renda) /
+                  (limparValor(taxa) / 100)
+                ).toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                })}
+              </CalcLabel>
+            )}
             <CalcButton onPress={handleCalc}>
               <CalcButtonText>Calcular</CalcButtonText>
             </CalcButton>
@@ -358,13 +376,17 @@ export default App = () => {
               </ResultText>
             </ResultLabelArea>
             <ResultLabelArea style={{ height: 40 }}>
-              <ResultLabel style={{ height: 40 }}>Valor Recorrente:</ResultLabel>
+              <ResultLabel style={{ height: 40 }}>
+                Valor Recorrente:
+              </ResultLabel>
               <ResultText style={{ height: 40 }}>
                 ${" "}
                 {vlrRecorrenteAplicado.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                   minimumFractionDigits: 2,
-                })} x {prazo} = {vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
+                })}{" "}
+                x {prazo} ={" "}
+                {vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                   minimumFractionDigits: 2,
                 })}

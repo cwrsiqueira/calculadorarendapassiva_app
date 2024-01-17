@@ -385,7 +385,7 @@ export default App = () => {
                   maximumFractionDigits: 2,
                   minimumFractionDigits: 2,
                 })}{" "}
-                x {prazo} ={" "}
+                x {prazo} = ${" "}
                 {vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                   minimumFractionDigits: 2,

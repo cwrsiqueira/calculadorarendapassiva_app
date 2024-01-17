@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import ViewShot from "react-native-view-shot";
 import {
   Header,
   Footer,
@@ -19,7 +20,7 @@ import {
   ResultButtonText,
   Divider,
 } from "./assets/css/style";
-import { Alert, ScrollView } from "react-native";
+import { Alert, ScrollView, Share } from "react-native";
 
 export default App = () => {
   const [anos, setAnos] = useState("");
@@ -243,6 +244,21 @@ export default App = () => {
     setRenda("");
   };
 
+  const viewShotRef = useRef(null);
+
+  const captureAndShareScreenshot = () => {
+    if (viewShotRef.current) {
+      viewShotRef.current.capture().then((uri) => {
+        Share.share({
+          message: "Calculadora de Renda Passiva",
+          url: uri,
+        })
+          .then((res) => console.log(res))
+          .catch((error) => console.log(error));
+      });
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Header>
@@ -328,120 +344,129 @@ export default App = () => {
           </CalcArea>
 
           <ResultArea isFlipped={isFlipped}>
-            <ResultTitle>Resultados</ResultTitle>
-            <ResultLabelArea style={{ height: 60 }}>
-              <ResultLabel style={{ height: 60 }}>Prazo:</ResultLabel>
-              <ResultText style={{ height: 60 }}>
-                {Math.floor(prazo / 12) > 0 && Math.floor(prazo / 12) + " ano"}
-                {Math.floor(prazo / 12) > 0
-                  ? Math.floor(prazo / 12) == 1
-                    ? ""
-                    : "s"
-                  : ""}
-                {Math.floor(prazo / 12) > 0 &&
-                prazo - Math.floor(prazo / 12) * 12 > 0
-                  ? " e "
-                  : ""}
-                {prazo - Math.floor(prazo / 12) * 12 > 0
-                  ? prazo - Math.floor(prazo / 12) * 12 == 1
-                    ? prazo - Math.floor(prazo / 12) * 12 + " mês"
-                    : prazo - Math.floor(prazo / 12) * 12 + " meses"
-                  : ""}
-                {Math.floor(prazo / 12) > 0
-                  ? prazo == 1
-                    ? "\nou " + prazo + " mês"
-                    : "\nou " + prazo + " meses"
-                  : ""}
-              </ResultText>
-            </ResultLabelArea>
-            <Divider />
-            <ResultLabelArea>
-              <ResultLabel>Valor Investido:</ResultLabel>
-              <ResultText>
-                ${" "}
-                {vlrTotalAplicado.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}
-              </ResultText>
-            </ResultLabelArea>
-            <ResultLabelArea>
-              <ResultLabel>Valor Inicial:</ResultLabel>
-              <ResultText>
-                ${" "}
-                {vlrInicialAplicado.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}
-              </ResultText>
-            </ResultLabelArea>
-            <ResultLabelArea style={{ height: 40 }}>
-              <ResultLabel style={{ height: 40 }}>
-                Valor Recorrente:
-              </ResultLabel>
-              <ResultText style={{ height: 40 }}>
-                ${" "}
-                {vlrRecorrenteAplicado.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}{" "}
-                x {prazo} = ${" "}
-                {vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}
-              </ResultText>
-            </ResultLabelArea>
-            <Divider />
-            <ResultLabelArea>
-              <ResultLabel>Rendimentos:</ResultLabel>
-              <ResultText>
-                ${" "}
-                {vlrRendimentos.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}
-              </ResultText>
-            </ResultLabelArea>
-            <Divider />
-            <ResultLabelArea>
-              <ResultLabel>Valor Acumulado:</ResultLabel>
-              <ResultText>
-                ${" "}
-                {vlrAcumulado.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}
-              </ResultText>
-            </ResultLabelArea>
-            <Divider />
-            <ResultLabelArea>
-              <ResultLabel>Taxa Mensal:</ResultLabel>
-              <ResultText>
-                {taxa.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                }) || "0.00"}
-                %
-              </ResultText>
-            </ResultLabelArea>
-            <Divider />
-            <ResultLabelArea style={{ height: 50 }}>
-              <ResultLabel style={{ height: 50 }}>
-                Valor da Renda Passiva:
-              </ResultLabel>
-              <ResultText style={{ height: 50 }}>
-                ${" "}
-                {vlrRenda.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                })}{" "}
-                por mês
-              </ResultText>
-            </ResultLabelArea>
-            <Divider />
+            <ViewShot
+              ref={viewShotRef}
+              options={{ format: "jpg", quality: 0.9 }}
+            >
+              <ResultTitle>Resultados</ResultTitle>
+              <ResultLabelArea style={{ height: 60 }}>
+                <ResultLabel style={{ height: 60 }}>Prazo:</ResultLabel>
+                <ResultText style={{ height: 60 }}>
+                  {Math.floor(prazo / 12) > 0 &&
+                    Math.floor(prazo / 12) + " ano"}
+                  {Math.floor(prazo / 12) > 0
+                    ? Math.floor(prazo / 12) == 1
+                      ? ""
+                      : "s"
+                    : ""}
+                  {Math.floor(prazo / 12) > 0 &&
+                  prazo - Math.floor(prazo / 12) * 12 > 0
+                    ? " e "
+                    : ""}
+                  {prazo - Math.floor(prazo / 12) * 12 > 0
+                    ? prazo - Math.floor(prazo / 12) * 12 == 1
+                      ? prazo - Math.floor(prazo / 12) * 12 + " mês"
+                      : prazo - Math.floor(prazo / 12) * 12 + " meses"
+                    : ""}
+                  {Math.floor(prazo / 12) > 0
+                    ? prazo == 1
+                      ? "\nou " + prazo + " mês"
+                      : "\nou " + prazo + " meses"
+                    : ""}
+                </ResultText>
+              </ResultLabelArea>
+              <Divider />
+              <ResultLabelArea>
+                <ResultLabel>Valor Investido:</ResultLabel>
+                <ResultText>
+                  ${" "}
+                  {vlrTotalAplicado.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}
+                </ResultText>
+              </ResultLabelArea>
+              <ResultLabelArea>
+                <ResultLabel>Valor Inicial:</ResultLabel>
+                <ResultText>
+                  ${" "}
+                  {vlrInicialAplicado.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}
+                </ResultText>
+              </ResultLabelArea>
+              <ResultLabelArea style={{ height: 40 }}>
+                <ResultLabel style={{ height: 40 }}>
+                  Valor Recorrente:
+                </ResultLabel>
+                <ResultText style={{ height: 40 }}>
+                  ${" "}
+                  {vlrRecorrenteAplicado.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}{" "}
+                  x {prazo} = ${" "}
+                  {vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}
+                </ResultText>
+              </ResultLabelArea>
+              <Divider />
+              <ResultLabelArea>
+                <ResultLabel>Rendimentos:</ResultLabel>
+                <ResultText>
+                  ${" "}
+                  {vlrRendimentos.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}
+                </ResultText>
+              </ResultLabelArea>
+              <Divider />
+              <ResultLabelArea>
+                <ResultLabel>Valor Acumulado:</ResultLabel>
+                <ResultText>
+                  ${" "}
+                  {vlrAcumulado.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}
+                </ResultText>
+              </ResultLabelArea>
+              <Divider />
+              <ResultLabelArea>
+                <ResultLabel>Taxa Mensal:</ResultLabel>
+                <ResultText>
+                  {taxa.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  }) || "0.00"}
+                  %
+                </ResultText>
+              </ResultLabelArea>
+              <Divider />
+              <ResultLabelArea style={{ height: 50 }}>
+                <ResultLabel style={{ height: 50 }}>
+                  Valor da Renda Passiva:
+                </ResultLabel>
+                <ResultText style={{ height: 50 }}>
+                  ${" "}
+                  {vlrRenda.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  })}{" "}
+                  por mês
+                </ResultText>
+              </ResultLabelArea>
+              <Divider />
+            </ViewShot>
             <ResultButton onPress={() => setIsFlipped(false)}>
               <ResultButtonText>Refazer Cálculo</ResultButtonText>
+            </ResultButton>
+            <ResultButton onPress={captureAndShareScreenshot} bg={"orange"}>
+              <ResultButtonText>Compartilhar Resultado</ResultButtonText>
             </ResultButton>
           </ResultArea>
         </FlipCard>

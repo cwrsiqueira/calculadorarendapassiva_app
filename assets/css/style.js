@@ -115,11 +115,12 @@ export const ResultText = styled.Text`
 export const ResultButton = styled.Pressable`
   height: 40px;
   width: 90%;
-  background-color: green;
+  background-color: ${(props) => props.bg || "green"};
   border-radius: 6px;
   color: white;
   justify-content: center;
   align-items: center;
+  margin: 8px 0;
 `;
 
 export const ResultButtonText = styled.Text`

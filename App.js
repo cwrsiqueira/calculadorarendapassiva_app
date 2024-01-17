@@ -23,7 +23,7 @@ import {
 import { Alert, ScrollView, Share } from "react-native";
 
 export default App = () => {
-  const [anos, setAnos] = useState("");
+  const [meses, setMeses] = useState("");
   const [investInicial, setInvestInicial] = useState("");
   const [investRecorrente, setInvestRecorrente] = useState("");
   const [taxa, setTaxa] = useState("");
@@ -38,6 +38,7 @@ export default App = () => {
   const [vlrRendimentos, setVlrRendimentos] = useState(0);
   const [vlrAcumulado, setVlrAcumulado] = useState(0);
   const [vlrRenda, setVlrRenda] = useState(0);
+  const [vlrTaxa, setVlrTaxa] = useState(0);
 
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -59,13 +60,13 @@ export default App = () => {
     let rendaClean;
     if (renda) rendaClean = limparValor(renda);
 
-    if (anos && investInicial && investRecorrente && taxa && renda) {
+    if (meses && investInicial && investRecorrente && taxa && renda) {
       Alert.alert("Erro! Deixe pelo menos 1 campo em branco para calculá-lo.");
       return;
     }
 
     // Calcular Prazo
-    else if (!anos && investInicial && investRecorrente && taxa && renda) {
+    else if (!meses && investInicial && investRecorrente && taxa && renda) {
       let vlrAtual = investInicialClean;
       let montante = rendaClean / (taxaClean / 100);
       let loop = 0;
@@ -92,6 +93,7 @@ export default App = () => {
       let newRendimentos =
         newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
+      let newTaxa = parseFloat(taxaClean.toFixed(2));
 
       setPrazo(newPrazo);
       setVlrInicialAplicado(newAplicadoInicial);
@@ -101,21 +103,22 @@ export default App = () => {
       setVlrAcumulado(newAcumulado);
       setVlrRendimentos(newRendimentos);
       setVlrRenda(newRenda);
+      setVlrTaxa(newTaxa);
 
       setIsFlipped(!isFlipped);
       return;
     }
 
     // Calcular Investimento Inicial
-    else if (anos && !investInicial && investRecorrente && taxa && renda) {
+    else if (meses && !investInicial && investRecorrente && taxa && renda) {
       let montante = rendaClean / (taxaClean / 100);
-      let taxaAtualizada = Math.pow(1 + taxaClean / 100, anos * 12);
+      let taxaAtualizada = Math.pow(1 + taxaClean / 100, meses);
       let investRecorrenteAtualizado =
         investRecorrenteClean * ((taxaAtualizada - 1) / (taxaClean / 100));
       let investInicialAtualizado = montante - investRecorrenteAtualizado;
       let investInicial = investInicialAtualizado / taxaAtualizada;
 
-      let newPrazo = anos * 12;
+      let newPrazo = meses;
       let newAplicadoInicial = parseFloat(investInicial.toFixed(2));
       let newAplicadoRecorrente = investRecorrenteClean;
       let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
@@ -124,6 +127,7 @@ export default App = () => {
       let newRendimentos =
         newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
+      let newTaxa = parseFloat(taxaClean.toFixed(2));
 
       setPrazo(newPrazo);
       setVlrInicialAplicado(newAplicadoInicial);
@@ -133,22 +137,23 @@ export default App = () => {
       setVlrAcumulado(newAcumulado);
       setVlrRendimentos(newRendimentos);
       setVlrRenda(newRenda);
+      setVlrTaxa(newTaxa);
 
       setIsFlipped(!isFlipped);
       return;
     }
 
     // Calcular Investimento Recorrente
-    else if (anos && investInicial && !investRecorrente && taxa && renda) {
+    else if (meses && investInicial && !investRecorrente && taxa && renda) {
       let montante = rendaClean / (taxaClean / 100);
       let investInicialCalc =
-        investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
+        investInicialClean * Math.pow(1 + taxaClean / 100, meses);
       let taxaCalc =
-        (Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100);
+        (Math.pow(1 + taxaClean / 100, meses) - 1) / (taxaClean / 100);
 
       let investRecorrente = (montante - investInicialCalc) / taxaCalc;
 
-      let newPrazo = anos * 12;
+      let newPrazo = meses;
       let newAplicadoInicial = investInicialClean;
       let newAplicadoRecorrente = parseFloat(investRecorrente.toFixed(2));
       let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
@@ -157,6 +162,7 @@ export default App = () => {
       let newRendimentos =
         newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
+      let newTaxa = parseFloat(taxaClean.toFixed(2));
 
       setPrazo(newPrazo);
       setVlrInicialAplicado(newAplicadoInicial);
@@ -166,25 +172,74 @@ export default App = () => {
       setVlrAcumulado(newAcumulado);
       setVlrRendimentos(newRendimentos);
       setVlrRenda(newRenda);
+      setVlrTaxa(newTaxa);
 
       setIsFlipped(!isFlipped);
       return;
     }
 
     // Calcular Taxa
-    else if (anos && investInicial && investRecorrente && !taxa && renda) {
-      Alert.alert("Calcular Taxa. Em breve, aguarde...");
+    else if (meses && investInicial && investRecorrente && !taxa && renda) {
+      let t = 0.01;
+      let r = 0;
+      let n = meses;
+      let cont = true;
+      let investInicialAtualizado;
+      let investRecorrenteAtualizado;
+      let montante;
+      let montanteAtualizado;
+
+      while (cont) {
+        investInicialAtualizado = investInicialClean * Math.pow(1 + t / 100, n);
+        investRecorrenteAtualizado =
+          investRecorrenteClean * ((Math.pow(1 + t / 100, n) - 1) / (t / 100));
+        montante = investInicialAtualizado + investRecorrenteAtualizado;
+        r = montante * (t / 100);
+        if (r >= rendaClean) {
+          cont = false;
+        } else {
+          rendaAtualizada = r;
+          montanteAtualizado = montante;
+          taxaAtualizada = t;
+          t = t + 0.01;
+        }
+      }
+
+      let newPrazo = n;
+      let newAplicadoInicial = investInicialClean;
+      let newAplicadoRecorrente = investRecorrenteClean;
+      let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
+      let newAplicadoTotal = newAplicadoInicial + newAplicadoRecorrenteTotal;
+      let newAcumulado = parseFloat(montanteAtualizado.toFixed(2));
+      let newRendimentos =
+        newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
+      let newRenda = parseFloat(
+        (newAcumulado * (taxaAtualizada / 100)).toFixed(2)
+      );
+      let newTaxa = parseFloat(taxaAtualizada.toFixed(2));
+
+      setPrazo(newPrazo);
+      setVlrInicialAplicado(newAplicadoInicial);
+      setVlrRecorrenteAplicado(newAplicadoRecorrente);
+      setVlrRecorrenteAplicadoTotal(newAplicadoRecorrenteTotal);
+      setVlrTotalAplicado(newAplicadoTotal);
+      setVlrAcumulado(newAcumulado);
+      setVlrRendimentos(newRendimentos);
+      setVlrRenda(newRenda);
+      setVlrTaxa(newTaxa);
+
+      setIsFlipped(!isFlipped);
       return;
     }
 
     // Calcular Renda Passiva
-    else if (anos && investInicial && investRecorrente && taxa && !renda) {
+    else if (meses && investInicial && investRecorrente && taxa && !renda) {
       const acumulado =
         investRecorrenteClean *
-          ((Math.pow(1 + taxaClean / 100, anos * 12) - 1) / (taxaClean / 100)) +
-        investInicialClean * Math.pow(1 + taxaClean / 100, anos * 12);
+          ((Math.pow(1 + taxaClean / 100, meses) - 1) / (taxaClean / 100)) +
+        investInicialClean * Math.pow(1 + taxaClean / 100, meses);
 
-      let newPrazo = anos * 12;
+      let newPrazo = meses;
       let newAplicadoInicial = investInicialClean;
       let newAplicadoRecorrente = investRecorrenteClean;
       let newAplicadoRecorrenteTotal = newAplicadoRecorrente * newPrazo;
@@ -193,6 +248,7 @@ export default App = () => {
       let newRendimentos =
         newAcumulado - newAplicadoRecorrente * newPrazo - newAplicadoInicial;
       let newRenda = parseFloat((newAcumulado * (taxaClean / 100)).toFixed(2));
+      let newTaxa = parseFloat(taxaClean.toFixed(2));
 
       setPrazo(newPrazo);
       setVlrInicialAplicado(newAplicadoInicial);
@@ -202,6 +258,7 @@ export default App = () => {
       setVlrAcumulado(newAcumulado);
       setVlrRendimentos(newRendimentos);
       setVlrRenda(newRenda);
+      setVlrTaxa(newTaxa);
 
       setIsFlipped(!isFlipped);
       return;
@@ -237,7 +294,7 @@ export default App = () => {
   };
 
   const handleClean = () => {
-    setAnos("");
+    setMeses("");
     setInvestInicial("");
     setInvestRecorrente("");
     setTaxa("");
@@ -267,16 +324,16 @@ export default App = () => {
       <Body>
         <FlipCard>
           <CalcArea isFlipped={isFlipped}>
-            <CalcLabel>Prazo (anos): </CalcLabel>
+            <CalcLabel>Prazo (meses): </CalcLabel>
             <CalcInput
               placeholder="Ex.: 25"
-              onChangeText={(val) => setAnos(val)}
-              value={anos}
+              onChangeText={(val) => setMeses(val)}
+              value={meses}
               keyboardType="numeric"
               returnKeyType="next"
               onSubmitEditing={() => secondInputRef.current.focus()}
               blurOnSubmit={false}
-              maxLength={2}
+              maxLength={3}
             />
             <CalcLabel>Investimento Inicial ($): </CalcLabel>
             <CalcInput
@@ -439,7 +496,7 @@ export default App = () => {
               <ResultLabelArea>
                 <ResultLabel>Taxa Mensal:</ResultLabel>
                 <ResultText>
-                  {taxa.toLocaleString(undefined, {
+                  {vlrTaxa.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                     minimumFractionDigits: 2,
                   }) || "0.00"}

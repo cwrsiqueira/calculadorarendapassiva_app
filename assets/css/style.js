@@ -38,6 +38,7 @@ export const CalcArea = styled.View`
   justify-content: center;
   padding-left: 10%;
   width: 100%;
+  margin-top: 50px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   ${(props) => (props.isFlipped ? "transform:rotateY(180deg)" : "")};
@@ -46,19 +47,24 @@ export const CalcArea = styled.View`
 
 export const CalcLabel = styled.Text`
   width: 90%;
-  height: 20px;
+  height: 16px;
   margin-left: 5px;
+  font-size: 12px;
+  color: ${(props) =>
+    props.isFocused || props.field ? "#555" : "transparent"};
+  z-index: 9;
 `;
 
 export const CalcInput = styled.TextInput`
-  background-color: #f5f5f5;
+  background-color: #fbfbfb;
   width: 90%;
   margin-bottom: 10px;
   color: #222;
-  font-size: 16px;
+  font-size: 12px;
   border-radius: 6px;
   padding-left: 10px;
   height: 30px;
+  margin-top: -6px;
 `;
 
 export const CalcButton = styled.Pressable`
@@ -91,9 +97,9 @@ export const ResultArea = styled.View`
 export const ResultTitle = styled.Text`
   width: 90%;
   height: 30px;
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px 0;
 `;
 
 export const ResultLabelArea = styled.View`
@@ -105,11 +111,13 @@ export const ResultLabelArea = styled.View`
 export const ResultLabel = styled.Text`
   height: 20px;
   width: 50%;
+  font-size: 12px;
 `;
 
 export const ResultText = styled.Text`
   height: 20px;
   width: 50%;
+  font-size: 12px;
 `;
 
 export const ResultButton = styled.Pressable`
@@ -129,7 +137,7 @@ export const ResultButtonText = styled.Text`
 `;
 
 export const Divider = styled.View`
-  border: 1px solid #ddd;
+  border: 0.3px solid #ddd;
   width: 90%;
   margin-bottom: 10px;
 `;

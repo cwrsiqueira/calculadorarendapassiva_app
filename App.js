@@ -20,7 +20,7 @@ import {
   ResultButtonText,
   Divider,
 } from "./assets/css/style";
-import { Alert, ScrollView, Share } from "react-native";
+import { ScrollView, Share, Text, ToastAndroid } from "react-native";
 
 export default App = () => {
   const [meses, setMeses] = useState("");
@@ -61,7 +61,11 @@ export default App = () => {
     if (renda) rendaClean = limparValor(renda);
 
     if (meses && investInicial && investRecorrente && taxa && renda) {
-      Alert.alert("Erro! Deixe pelo menos 1 campo em branco para calculá-lo.");
+      ToastAndroid.showWithGravity(
+        "Erro! Deixe pelo menos 1 campo em branco para calculá-lo.",
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER
+      );
       return;
     }
 
@@ -263,7 +267,11 @@ export default App = () => {
       setIsFlipped(!isFlipped);
       return;
     } else {
-      Alert.alert("Erro! Deixe apenas 1 campo em branco para calculá-lo.");
+      ToastAndroid.showWithGravity(
+        "Erro! Deixe apenas 1 campo em branco para calculá-lo.",
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER
+      );
       return;
     }
   };
@@ -316,66 +324,104 @@ export default App = () => {
     }
   };
 
+  const [isPrazoFocused, setIsPrazoFocused] = useState(false);
+  const [isInvestIniFocused, setIsInvestIniFocused] = useState(false);
+  const [isInvestRecorrFocused, setIsInvestRecorrFocused] = useState(false);
+  const [isTaxaFocused, setIsTaxaFocused] = useState(false);
+  const [isRendaFocused, setIsRendaFocused] = useState(false);
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Header>
         <LogoImage source={require("./assets/logo.png")} />
+        <Text style={{ fontSize: 10 }}>
+          Deixe em branco o campo a ser calculado
+        </Text>
       </Header>
       <Body>
         <FlipCard>
           <CalcArea isFlipped={isFlipped}>
-            <CalcLabel>Prazo (meses): </CalcLabel>
+            <CalcLabel isFocused={isPrazoFocused} field={meses}>
+              Prazo (meses):{" "}
+            </CalcLabel>
             <CalcInput
-              placeholder="Ex.: 25"
+              placeholder={!isPrazoFocused ? "Prazo (meses)" : ""}
               onChangeText={(val) => setMeses(val)}
               value={meses}
               keyboardType="numeric"
               returnKeyType="next"
               onSubmitEditing={() => secondInputRef.current.focus()}
+              onFocus={() => setIsPrazoFocused(true)}
+              onBlur={() => setIsPrazoFocused(false)}
               blurOnSubmit={false}
               maxLength={3}
             />
-            <CalcLabel>Investimento Inicial ($): </CalcLabel>
+            <CalcLabel isFocused={isInvestIniFocused} field={investInicial}>
+              Investimento Inicial ($):{" "}
+            </CalcLabel>
             <CalcInput
               ref={secondInputRef}
-              placeholder="Ex.: 50.000,00"
+              placeholder={
+                !isInvestIniFocused ? "Investimento Inicial ($)" : ""
+              }
               onChangeText={(val) => setInvestInicial(formatarValor(val))}
               value={investInicial}
               keyboardType="numeric"
               returnKeyType="next"
               onSubmitEditing={() => thirdInputRef.current.focus()}
+              onFocus={() => setIsInvestIniFocused(true)}
+              onBlur={() => setIsInvestIniFocused(false)}
               blurOnSubmit={false}
               maxLength={14}
             />
-            <CalcLabel>Investimento Recorrente ($): </CalcLabel>
+            <CalcLabel
+              isFocused={isInvestRecorrFocused}
+              field={investRecorrente}
+            >
+              Investimento Recorrente ($):{" "}
+            </CalcLabel>
             <CalcInput
               ref={thirdInputRef}
-              placeholder="Ex.: 2.500,00"
+              placeholder={
+                !isInvestRecorrFocused ? "Investimento Recorrente ($)" : ""
+              }
               onChangeText={(val) => setInvestRecorrente(formatarValor(val))}
               value={investRecorrente}
               keyboardType="numeric"
               returnKeyType="next"
               onSubmitEditing={() => fourthInputRef.current.focus()}
+              onFocus={() => setIsInvestRecorrFocused(true)}
+              onBlur={() => setIsInvestRecorrFocused(false)}
               blurOnSubmit={false}
               maxLength={14}
             />
-            <CalcLabel>Taxa Líquida Mensal (%): </CalcLabel>
+            <CalcLabel isFocused={isTaxaFocused} field={taxa}>
+              Taxa Líquida Mensal (%):{" "}
+            </CalcLabel>
             <CalcInput
               ref={fourthInputRef}
-              placeholder="Ex.: 1,00"
+              placeholder={!isTaxaFocused ? "Taxa Líquida Mensal (%)" : ""}
               onChangeText={(val) => setTaxa(formatarValor(val))}
               value={taxa}
               keyboardType="numeric"
               returnKeyType="next"
               onSubmitEditing={() => fifthInputRef.current.focus()}
+              onFocus={() => setIsTaxaFocused(true)}
+              onBlur={() => setIsTaxaFocused(false)}
               blurOnSubmit={false}
               maxLength={5}
             />
-            <CalcLabel>Valor da Renda Passiva Desejada ($): </CalcLabel>
+            <CalcLabel isFocused={isRendaFocused} field={renda}>
+              Valor da Renda Passiva Desejada ($):{" "}
+            </CalcLabel>
             <CalcInput
               ref={fifthInputRef}
-              placeholder="Ex.: 50.000,00"
+              placeholder={
+                !isRendaFocused ? "Valor da Renda Passiva Desejada ($)" : ""
+              }
               onChangeText={(val) => setRenda(formatarValor(val))}
+              onFocus={() => setIsRendaFocused(true)}
+              onBlur={() => setIsRendaFocused(false)}
               value={renda}
               keyboardType="numeric"
               maxLength={14}
@@ -463,7 +509,7 @@ export default App = () => {
                     maximumFractionDigits: 2,
                     minimumFractionDigits: 2,
                   })}{" "}
-                  x {prazo} = ${" "}
+                  x {prazo} = {"\n"}${" "}
                   {vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                     minimumFractionDigits: 2,

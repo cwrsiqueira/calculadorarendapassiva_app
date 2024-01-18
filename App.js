@@ -21,6 +21,7 @@ import {
   Divider,
 } from "./assets/css/style";
 import { ScrollView, Share, Text, ToastAndroid } from "react-native";
+import { A } from "@expo/html-elements";
 
 export default App = () => {
   const [meses, setMeses] = useState("");
@@ -315,7 +316,52 @@ export default App = () => {
     if (viewShotRef.current) {
       viewShotRef.current.capture().then((uri) => {
         Share.share({
-          message: "Calculadora de Renda Passiva",
+          message:
+            "Prazo: " +
+            prazo +
+            " meses\n" +
+            "Valor Total Investido: $ " +
+            vlrTotalAplicado.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "\n" +
+            "Valor Inicial Investido: $ " +
+            vlrInicialAplicado.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "\n" +
+            "Valor Recorrente Investido: $ " +
+            vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "\n" +
+            "Rendimentos: $ " +
+            vlrRendimentos.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "\n" +
+            "Valor Acumulado: $ " +
+            vlrAcumulado.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "\n" +
+            "Taxa Mensal: " +
+            vlrTaxa.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "%\n" +
+            "Valor Renda Passiva: $ " +
+            vlrRenda.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) +
+            "\n",
           url: uri,
         })
           .then((res) => console.log(res))
@@ -574,7 +620,11 @@ export default App = () => {
           </ResultArea>
         </FlipCard>
       </Body>
-      <Footer></Footer>
+      <Footer>
+        <ResultText style={{ textAlign: "center", color: "#555" }}>
+          <A href="mailto:suporte@calcularrendapassiva.com.br">Reporte Bugs</A>
+        </ResultText>
+      </Footer>
     </ScrollView>
   );
 };

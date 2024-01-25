@@ -395,7 +395,8 @@ export default App = () => {
               Prazo (meses):{" "}
             </CalcLabel>
             <CalcInput
-              placeholder={!isPrazoFocused ? "Prazo (meses)" : ""}
+              placeholder={"Prazo (meses)"}
+              placeholderTextColor="#6D6D6D"
               onChangeText={(val) => setMeses(val)}
               value={meses}
               keyboardType="numeric"
@@ -411,9 +412,8 @@ export default App = () => {
             </CalcLabel>
             <CalcInput
               ref={secondInputRef}
-              placeholder={
-                !isInvestIniFocused ? "Investimento Inicial ($)" : ""
-              }
+              placeholder={"Investimento Inicial ($)"}
+              placeholderTextColor="#6D6D6D"
               onChangeText={(val) => setInvestInicial(formatarValor(val))}
               value={investInicial}
               keyboardType="numeric"
@@ -432,9 +432,8 @@ export default App = () => {
             </CalcLabel>
             <CalcInput
               ref={thirdInputRef}
-              placeholder={
-                !isInvestRecorrFocused ? "Investimento Recorrente ($)" : ""
-              }
+              placeholder={"Investimento Recorrente ($)"}
+              placeholderTextColor="#6D6D6D"
               onChangeText={(val) => setInvestRecorrente(formatarValor(val))}
               value={investRecorrente}
               keyboardType="numeric"
@@ -450,7 +449,8 @@ export default App = () => {
             </CalcLabel>
             <CalcInput
               ref={fourthInputRef}
-              placeholder={!isTaxaFocused ? "Taxa Líquida Mensal (%)" : ""}
+              placeholder={"Taxa Líquida Mensal (%)"}
+              placeholderTextColor="#6D6D6D"
               onChangeText={(val) => setTaxa(formatarValor(val))}
               value={taxa}
               keyboardType="numeric"
@@ -466,9 +466,8 @@ export default App = () => {
             </CalcLabel>
             <CalcInput
               ref={fifthInputRef}
-              placeholder={
-                !isRendaFocused ? "Valor da Renda Passiva Desejada ($)" : ""
-              }
+              placeholder={"Valor da Renda Passiva Desejada ($)"}
+              placeholderTextColor="#6D6D6D"
               onChangeText={(val) => setRenda(formatarValor(val))}
               onFocus={() => setIsRendaFocused(true)}
               onBlur={() => setIsRendaFocused(false)}
@@ -491,7 +490,7 @@ export default App = () => {
             <CalcButton onPress={handleCalc}>
               <CalcButtonText>Calcular</CalcButtonText>
             </CalcButton>
-            <CalcButton onPress={handleClean} bg={"red"}>
+            <CalcButton onPress={handleClean} bg={"#BB2D3B"}>
               <CalcButtonText>Limpar</CalcButtonText>
             </CalcButton>
           </CalcArea>

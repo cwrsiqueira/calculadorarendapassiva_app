@@ -15,6 +15,9 @@ https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c9380
 Rodar app
 npm start
 
+Abrir o simulador
+Press shift+a | Open Simulador Android
+ou
 Abrir no simulador Android
 Press a | open Android
 

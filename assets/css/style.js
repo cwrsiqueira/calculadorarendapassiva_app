@@ -128,7 +128,7 @@ export const ResultText = styled.Text`
 `;
 
 export const ResultButton = styled.Pressable`
-  height: 40px;
+  height: 48px;
   width: 90%;
   background-color: ${(props) => props.bg || "green"};
   border-radius: 6px;

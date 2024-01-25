@@ -625,7 +625,9 @@ export default App = () => {
       </Body>
       <Footer>
         <FooterText>
-          <A href="mailto:suporte@calcularrendapassiva.com.br">Reporte Bugs</A>
+          <A href="mailto:suporte@calcularrendapassiva.com.br?subject=Bugs, Críticas e Sugestões">
+            Bugs, Críticas e Sugestões
+          </A>
         </FooterText>
       </Footer>
     </ScrollView>

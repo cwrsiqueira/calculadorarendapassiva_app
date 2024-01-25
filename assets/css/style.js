@@ -7,13 +7,12 @@ export const MainView = styled.SafeAreaView`
 export const Header = styled.View`
   align-items: center;
   background-color: #333;
-  margin-top: 25px;
 `;
 
 export const HeaderTitle = styled.Text`
   font-size: 18px;
   color: #fff;
-  margin-top: 5px;
+  margin-top: 15px;
 `;
 
 export const HeaderSubtitle = styled.Text`

@@ -5,16 +5,23 @@ export const MainView = styled.SafeAreaView`
 `;
 
 export const Header = styled.View`
-  width: 100%;
-  height: 100px;
   align-items: center;
+  background-color: #333;
+  margin-top: 25px;
 `;
 
-export const LogoImage = styled.Image`
-  margin-top: 30px;
-  width: 100px;
-  height: 100px;
+export const HeaderTitle = styled.Text`
+  font-size: 18px;
+  color: #fff;
+  margin-top: 5px;
 `;
+
+export const HeaderSubtitle = styled.Text`
+  font-size: 14px;
+  color: #fff;
+`;
+
+export const LogoImage = styled.Image``;
 
 export const Body = styled.View`
   flex: 1;
@@ -22,15 +29,15 @@ export const Body = styled.View`
   align-items: center;
   background-color: transparent;
   width: 100%;
-  perspective: 1000px;
-  margin-top: 20px;
+  /* perspective: 1000px; */
+  background-color: #333;
 `;
 
 export const FlipCard = styled.View`
-  position: relative;
+  /* position: relative; */
   width: 100%;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
+  /* transition: transform 0.8s;
+  transform-style: preserve-3d; */
 `;
 
 export const CalcArea = styled.View`
@@ -38,20 +45,19 @@ export const CalcArea = styled.View`
   justify-content: center;
   padding-left: 10%;
   width: 100%;
-  margin-top: 50px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  ${(props) => (props.isFlipped ? "transform:rotateY(180deg)" : "")};
-  ${(props) => (props.isFlipped ? "display:none" : "display:flex")};
+  margin-top: 10px;
+  /* ${(props) => (props.isFlipped ? "transform:rotateY(180deg)" : "")}; */
+  ${(props) => (props.isFlipped ? "display:none;" : "display:flex;")}
 `;
 
 export const CalcLabel = styled.Text`
   width: 90%;
-  height: 16px;
   margin-left: 5px;
   font-size: 12px;
   color: ${(props) =>
-    props.isFocused || props.field ? "#555" : "transparent"};
+    props.isFocused || props.field ? "#fff" : "transparent"};
   z-index: 9;
 `;
 
@@ -60,19 +66,18 @@ export const CalcInput = styled.TextInput`
   width: 90%;
   margin-bottom: 10px;
   color: #222;
-  font-size: 12px;
+  font-size: 14px;
   border-radius: 6px;
   padding-left: 10px;
-  height: 30px;
-  margin-top: -6px;
+  height: 48px;
 `;
 
 export const CalcButton = styled.Pressable`
-  height: 35px;
+  height: 48px;
   width: 90%;
   background-color: ${(props) => props.bg || "green"};
   border-radius: 6px;
-  color: white;
+  color: #fff;
   justify-content: center;
   align-items: center;
   margin: 8px 0;
@@ -81,6 +86,7 @@ export const CalcButton = styled.Pressable`
 export const CalcButtonText = styled.Text`
   text-align: center;
   color: white;
+  font-size: 18px;
 `;
 
 export const ResultArea = styled.View`
@@ -112,12 +118,14 @@ export const ResultLabel = styled.Text`
   height: 20px;
   width: 50%;
   font-size: 12px;
+  color: #fff;
 `;
 
 export const ResultText = styled.Text`
   height: 20px;
   width: 50%;
   font-size: 12px;
+  color: #fff;
 `;
 
 export const ResultButton = styled.Pressable`
@@ -134,6 +142,7 @@ export const ResultButton = styled.Pressable`
 export const ResultButtonText = styled.Text`
   text-align: center;
   color: white;
+  font-size: 18px;
 `;
 
 export const Divider = styled.View`
@@ -146,6 +155,12 @@ export const Footer = styled.View`
   width: 100%;
   height: 100px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 20px 0;
+  background-color: #333;
+`;
+
+export const FooterText = styled.Text`
+  font-size: 18px;
+  color: #fff;
 `;

@@ -19,8 +19,11 @@ import {
   ResultButton,
   ResultButtonText,
   Divider,
+  HeaderTitle,
+  HeaderSubtitle,
+  FooterText,
 } from "./assets/css/style";
-import { ScrollView, Share, Text, ToastAndroid } from "react-native";
+import { ScrollView, Share, ToastAndroid } from "react-native";
 import { A } from "@expo/html-elements";
 
 export default App = () => {
@@ -320,31 +323,31 @@ export default App = () => {
             "Prazo: " +
             prazo +
             " meses\n" +
-            "Valor Total Investido: $ " +
+            "Valor Total Investido: \n$ " +
             vlrTotalAplicado.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             }) +
             "\n" +
-            "Valor Inicial Investido: $ " +
+            "Valor Inicial Investido: \n$ " +
             vlrInicialAplicado.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             }) +
             "\n" +
-            "Valor Recorrente Investido: $ " +
+            "Valor Recorrente Investido: \n$ " +
             vlrRecorrenteAplicadoTotal.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             }) +
             "\n" +
-            "Rendimentos: $ " +
+            "Rendimentos: \n$ " +
             vlrRendimentos.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             }) +
             "\n" +
-            "Valor Acumulado: $ " +
+            "Valor Acumulado: \n$ " +
             vlrAcumulado.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
@@ -356,7 +359,7 @@ export default App = () => {
               maximumFractionDigits: 2,
             }) +
             "%\n" +
-            "Valor Renda Passiva: $ " +
+            "Valor Renda Passiva: \n$ " +
             vlrRenda.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
@@ -379,10 +382,11 @@ export default App = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Header>
-        <LogoImage source={require("./assets/logo.png")} />
-        <Text style={{ fontSize: 10 }}>
-          Deixe em branco o campo a ser calculado
-        </Text>
+        <HeaderTitle>Calcular Renda Passiva</HeaderTitle>
+        <HeaderSubtitle>
+          {isFlipped && "Resultados"}
+          {!isFlipped && "Deixe em branco o campo a ser calculado"}
+        </HeaderSubtitle>
       </Header>
       <Body>
         <FlipCard>
@@ -497,7 +501,6 @@ export default App = () => {
               ref={viewShotRef}
               options={{ format: "jpg", quality: 0.9 }}
             >
-              <ResultTitle>Resultados</ResultTitle>
               <ResultLabelArea style={{ height: 60 }}>
                 <ResultLabel style={{ height: 60 }}>Prazo:</ResultLabel>
                 <ResultText style={{ height: 60 }}>
@@ -621,9 +624,9 @@ export default App = () => {
         </FlipCard>
       </Body>
       <Footer>
-        <ResultText style={{ textAlign: "center", color: "#555" }}>
+        <FooterText>
           <A href="mailto:suporte@calcularrendapassiva.com.br">Reporte Bugs</A>
-        </ResultText>
+        </FooterText>
       </Footer>
     </ScrollView>
   );

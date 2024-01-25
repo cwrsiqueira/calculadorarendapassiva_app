@@ -74,7 +74,7 @@ export const CalcInput = styled.TextInput`
 export const CalcButton = styled.Pressable`
   height: 48px;
   width: 90%;
-  background-color: ${(props) => props.bg || "green"};
+  background-color: ${(props) => props.bg || "#198754"};
   border-radius: 6px;
   color: #fff;
   justify-content: center;
@@ -130,9 +130,8 @@ export const ResultText = styled.Text`
 export const ResultButton = styled.Pressable`
   height: 48px;
   width: 90%;
-  background-color: ${(props) => props.bg || "green"};
+  background-color: ${(props) => props.bg || "#0dcaf0"};
   border-radius: 6px;
-  color: white;
   justify-content: center;
   align-items: center;
   margin: 8px 0;
@@ -140,7 +139,7 @@ export const ResultButton = styled.Pressable`
 
 export const ResultButtonText = styled.Text`
   text-align: center;
-  color: white;
+  color: #000;
   font-size: 18px;
 `;
 

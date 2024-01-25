@@ -613,10 +613,10 @@ export default App = () => {
               </ResultLabelArea>
               <Divider />
             </ViewShot>
-            <ResultButton onPress={() => setIsFlipped(false)}>
+            <ResultButton onPress={() => setIsFlipped(false)} bg={"#0dcaf0"}>
               <ResultButtonText>Refazer Cálculo</ResultButtonText>
             </ResultButton>
-            <ResultButton onPress={captureAndShareScreenshot} bg={"orange"}>
+            <ResultButton onPress={captureAndShareScreenshot} bg={"#ffc107"}>
               <ResultButtonText>Compartilhar Resultado</ResultButtonText>
             </ResultButton>
           </ResultArea>

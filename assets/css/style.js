@@ -74,7 +74,7 @@ export const CalcInput = styled.TextInput`
 export const CalcButton = styled.Pressable`
   height: 48px;
   width: 90%;
-  background-color: ${(props) => props.bg || "#198754"};
+  background-color: ${(props) => props.bg || "#21610B"};
   border-radius: 6px;
   color: #fff;
   justify-content: center;
@@ -161,4 +161,21 @@ export const Footer = styled.View`
 export const FooterText = styled.Text`
   font-size: 18px;
   color: #fff;
+`;
+
+export const SponsorButton = styled.Pressable`
+  display: flex;
+  height: 48px;
+  width: 100%;
+  background-color: ${(props) => props.bg || "#0dcaf0"};
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  margin: 8px 0;
+`;
+
+export const SponsorButtonButtonText = styled.Text`
+  text-align: center;
+  color: #000;
+  font-weight: bold;
 `;

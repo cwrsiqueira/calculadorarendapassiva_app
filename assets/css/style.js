@@ -159,13 +159,16 @@ export const Footer = styled.View`
 `;
 
 export const FooterText = styled.Text`
-  font-size: 18px;
+  font-size: 14px;
   color: #fff;
+  background-color: #bb2d3b;
+  padding: 10px 20px;
+  border-radius: 6px;
 `;
 
 export const SponsorButton = styled.Pressable`
   display: flex;
-  height: 48px;
+  height: 60px;
   width: 100%;
   background-color: ${(props) => props.bg || "#0dcaf0"};
   border-radius: 6px;

@@ -624,24 +624,6 @@ export default App = () => {
         </FlipCard>
       </Body>
 
-      <SponsorButton
-        bg={"#eee"}
-        onPress={() =>
-          Linking.openURL(
-            "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c938084882ea1dd0188305e8e0e00bc"
-          )
-        }
-      >
-        <SponsorButtonButtonText>
-          Pressione aqui e seja um patrocinador.
-        </SponsorButtonButtonText>
-        <SponsorButtonButtonText>
-          {" "}
-          Por apenas R$ 4,99 por mês, me ajude a manter a Calculadora de Renda
-          Passiva sempre GRATUITA!
-        </SponsorButtonButtonText>
-      </SponsorButton>
-
       <Footer>
         <FooterText>
           <A href="mailto:suporte@calcularrendapassiva.com.br?subject=Bugs, Críticas e Sugestões">

@@ -1,7 +1,13 @@
 import styled from "styled-components/native";
 
-export const MainView = styled.SafeAreaView`
-  flex: 1;
+export const Row = styled.View`
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+`;
+
+export const CalcGroup = styled.View`
+  flex: 2;
 `;
 
 export const Header = styled.View`
@@ -18,9 +24,8 @@ export const HeaderTitle = styled.Text`
 export const HeaderSubtitle = styled.Text`
   font-size: 14px;
   color: #fff;
+  margin-bottom: 10px;
 `;
-
-export const LogoImage = styled.Image``;
 
 export const Body = styled.View`
   flex: 1;
@@ -99,14 +104,6 @@ export const ResultArea = styled.View`
   ${(props) => (props.isFlipped ? "display:flex" : "display:none")};
 `;
 
-export const ResultTitle = styled.Text`
-  width: 90%;
-  height: 30px;
-  font-size: 14px;
-  text-align: center;
-  margin: 20px 0;
-`;
-
 export const ResultLabelArea = styled.View`
   flex-direction: row;
   height: 20px;
@@ -164,21 +161,6 @@ export const FooterText = styled.Text`
   background-color: #bb2d3b;
   padding: 10px 20px;
   border-radius: 6px;
-`;
-
-export const SponsorButton = styled.Pressable`
-  display: flex;
-  height: 60px;
-  width: 100%;
-  background-color: ${(props) => props.bg || "#0dcaf0"};
-  border-radius: 6px;
-  justify-content: center;
-  align-items: center;
-  margin: 8px 0;
-`;
-
-export const SponsorButtonButtonText = styled.Text`
-  text-align: center;
-  color: #000;
-  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
 `;

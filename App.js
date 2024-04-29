@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import ViewShot from "react-native-view-shot";
 import {
+  Row,
+  CalcGroup,
   Header,
-  Footer,
+  HeaderTitle,
+  HeaderSubtitle,
   Body,
   FlipCard,
   CalcArea,
@@ -11,21 +14,32 @@ import {
   CalcButton,
   CalcButtonText,
   ResultArea,
-  ResultTitle,
+  ResultLabelArea,
   ResultLabel,
   ResultText,
-  ResultLabelArea,
   ResultButton,
   ResultButtonText,
   Divider,
-  HeaderTitle,
-  HeaderSubtitle,
+  Footer,
   FooterText,
-  SponsorButton,
-  SponsorButtonButtonText,
 } from "./assets/css/style";
-import { Linking, ScrollView, Share, ToastAndroid } from "react-native";
+import { ScrollView, Share, ToastAndroid } from "react-native";
 import { A } from "@expo/html-elements";
+import GeneralStatusBarColor from "./src/components/GeneralStatusBarColor";
+import mobileAds from "react-native-google-mobile-ads";
+import {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+} from "react-native-google-mobile-ads";
+
+mobileAds()
+  .initialize()
+  .then((adapterStatuses) => {});
+
+const adUnitId = __DEV__
+  ? TestIds.ADAPTIVE_BANNER
+  : "ca-app-pub-5865817649832793/5691178242";
 
 export default App = () => {
   const [meses, setMeses] = useState("");
@@ -382,86 +396,107 @@ export default App = () => {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <GeneralStatusBarColor backgroundColor="#333" barStyle="light-content" />
       <Header>
         <HeaderTitle>Calcular Renda Passiva</HeaderTitle>
         <HeaderSubtitle>
           {isFlipped && "Resultados"}
           {!isFlipped && "Deixe em branco o campo a ser calculado"}
         </HeaderSubtitle>
+
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        />
       </Header>
+
       <Body>
         <FlipCard>
           <CalcArea isFlipped={isFlipped}>
-            <CalcLabel isFocused={isPrazoFocused} field={meses}>
-              Prazo (meses):{" "}
-            </CalcLabel>
-            <CalcInput
-              placeholder={"Prazo (meses)"}
-              placeholderTextColor="#6D6D6D"
-              onChangeText={(val) => setMeses(val)}
-              value={meses}
-              keyboardType="numeric"
-              returnKeyType="next"
-              onSubmitEditing={() => secondInputRef.current.focus()}
-              onFocus={() => setIsPrazoFocused(true)}
-              onBlur={() => setIsPrazoFocused(false)}
-              blurOnSubmit={false}
-              maxLength={3}
-            />
-            <CalcLabel isFocused={isInvestIniFocused} field={investInicial}>
-              Investimento Inicial ($):{" "}
-            </CalcLabel>
-            <CalcInput
-              ref={secondInputRef}
-              placeholder={"Investimento Inicial ($)"}
-              placeholderTextColor="#6D6D6D"
-              onChangeText={(val) => setInvestInicial(formatarValor(val))}
-              value={investInicial}
-              keyboardType="numeric"
-              returnKeyType="next"
-              onSubmitEditing={() => thirdInputRef.current.focus()}
-              onFocus={() => setIsInvestIniFocused(true)}
-              onBlur={() => setIsInvestIniFocused(false)}
-              blurOnSubmit={false}
-              maxLength={14}
-            />
-            <CalcLabel
-              isFocused={isInvestRecorrFocused}
-              field={investRecorrente}
-            >
-              Investimento Recorrente ($):{" "}
-            </CalcLabel>
-            <CalcInput
-              ref={thirdInputRef}
-              placeholder={"Investimento Recorrente ($)"}
-              placeholderTextColor="#6D6D6D"
-              onChangeText={(val) => setInvestRecorrente(formatarValor(val))}
-              value={investRecorrente}
-              keyboardType="numeric"
-              returnKeyType="next"
-              onSubmitEditing={() => fourthInputRef.current.focus()}
-              onFocus={() => setIsInvestRecorrFocused(true)}
-              onBlur={() => setIsInvestRecorrFocused(false)}
-              blurOnSubmit={false}
-              maxLength={14}
-            />
-            <CalcLabel isFocused={isTaxaFocused} field={taxa}>
-              Taxa Líquida Mensal (%):{" "}
-            </CalcLabel>
-            <CalcInput
-              ref={fourthInputRef}
-              placeholder={"Taxa Líquida Mensal (%)"}
-              placeholderTextColor="#6D6D6D"
-              onChangeText={(val) => setTaxa(formatarValor(val))}
-              value={taxa}
-              keyboardType="numeric"
-              returnKeyType="next"
-              onSubmitEditing={() => fifthInputRef.current.focus()}
-              onFocus={() => setIsTaxaFocused(true)}
-              onBlur={() => setIsTaxaFocused(false)}
-              blurOnSubmit={false}
-              maxLength={5}
-            />
+            <Row>
+              <CalcGroup>
+                <CalcLabel isFocused={isPrazoFocused} field={meses}>
+                  Prazo (meses):{" "}
+                </CalcLabel>
+                <CalcInput
+                  placeholder={"Prazo (meses)"}
+                  placeholderTextColor="#6D6D6D"
+                  onChangeText={(val) => setMeses(val)}
+                  value={meses}
+                  keyboardType="numeric"
+                  returnKeyType="next"
+                  onSubmitEditing={() => secondInputRef.current.focus()}
+                  onFocus={() => setIsPrazoFocused(true)}
+                  onBlur={() => setIsPrazoFocused(false)}
+                  blurOnSubmit={false}
+                  maxLength={3}
+                />
+              </CalcGroup>
+              <CalcGroup>
+                <CalcLabel isFocused={isTaxaFocused} field={taxa}>
+                  Taxa Mensal (%):{" "}
+                </CalcLabel>
+                <CalcInput
+                  ref={secondInputRef}
+                  placeholder={"Taxa Mensal (%)"}
+                  placeholderTextColor="#6D6D6D"
+                  onChangeText={(val) => setTaxa(formatarValor(val))}
+                  value={taxa}
+                  keyboardType="numeric"
+                  returnKeyType="next"
+                  onSubmitEditing={() => thirdInputRef.current.focus()}
+                  onFocus={() => setIsTaxaFocused(true)}
+                  onBlur={() => setIsTaxaFocused(false)}
+                  blurOnSubmit={false}
+                  maxLength={5}
+                />
+              </CalcGroup>
+            </Row>
+            <Row>
+              <CalcGroup>
+                <CalcLabel isFocused={isInvestIniFocused} field={investInicial}>
+                  Valor Inicial ($):{" "}
+                </CalcLabel>
+                <CalcInput
+                  ref={thirdInputRef}
+                  placeholder={"Valor Inicial ($)"}
+                  placeholderTextColor="#6D6D6D"
+                  onChangeText={(val) => setInvestInicial(formatarValor(val))}
+                  value={investInicial}
+                  keyboardType="numeric"
+                  returnKeyType="next"
+                  onSubmitEditing={() => fourthInputRef.current.focus()}
+                  onFocus={() => setIsInvestIniFocused(true)}
+                  onBlur={() => setIsInvestIniFocused(false)}
+                  blurOnSubmit={false}
+                  maxLength={14}
+                />
+              </CalcGroup>
+              <CalcGroup>
+                <CalcLabel
+                  isFocused={isInvestRecorrFocused}
+                  field={investRecorrente}
+                >
+                  Valor Recorrente ($):{" "}
+                </CalcLabel>
+                <CalcInput
+                  ref={fourthInputRef}
+                  placeholder={"Valor Recorrente ($)"}
+                  placeholderTextColor="#6D6D6D"
+                  onChangeText={(val) =>
+                    setInvestRecorrente(formatarValor(val))
+                  }
+                  value={investRecorrente}
+                  keyboardType="numeric"
+                  returnKeyType="next"
+                  onSubmitEditing={() => fifthInputRef.current.focus()}
+                  onFocus={() => setIsInvestRecorrFocused(true)}
+                  onBlur={() => setIsInvestRecorrFocused(false)}
+                  blurOnSubmit={false}
+                  maxLength={14}
+                />
+              </CalcGroup>
+            </Row>
             <CalcLabel isFocused={isRendaFocused} field={renda}>
               Valor da Renda Passiva Desejada ($):{" "}
             </CalcLabel>
@@ -488,12 +523,18 @@ export default App = () => {
                 })}
               </CalcLabel>
             )}
-            <CalcButton onPress={handleCalc}>
-              <CalcButtonText>Calcular</CalcButtonText>
-            </CalcButton>
-            <CalcButton onPress={handleClean} bg={"#BB2D3B"}>
-              <CalcButtonText>Limpar</CalcButtonText>
-            </CalcButton>
+            <Row>
+              <CalcGroup>
+                <CalcButton onPress={handleCalc}>
+                  <CalcButtonText>Calcular</CalcButtonText>
+                </CalcButton>
+              </CalcGroup>
+              <CalcGroup>
+                <CalcButton onPress={handleClean} bg={"#BB2D3B"}>
+                  <CalcButtonText>Limpar</CalcButtonText>
+                </CalcButton>
+              </CalcGroup>
+            </Row>
           </CalcArea>
 
           <ResultArea isFlipped={isFlipped}>
@@ -625,6 +666,10 @@ export default App = () => {
       </Body>
 
       <Footer>
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        />
         <FooterText>
           <A href="mailto:suporte@calcularrendapassiva.com.br?subject=Bugs, Críticas e Sugestões">
             Bugs, Críticas e Sugestões

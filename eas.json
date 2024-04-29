@@ -17,8 +17,8 @@
       "distribution": "internal"
     },
     "production": {
-      "android":{
-        "autoIncrement":true
+      "android": {
+        "autoIncrement": true
       }
     }
   }

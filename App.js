@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ViewShot from "react-native-view-shot";
 import {
   Row,
@@ -22,10 +22,12 @@ import {
   Divider,
   Footer,
   FooterText,
+  // BannerAd,
 } from "./assets/css/style";
 import { ScrollView, Share, ToastAndroid } from "react-native";
 import { A } from "@expo/html-elements";
 import GeneralStatusBarColor from "./src/components/GeneralStatusBarColor";
+import * as Updates from "expo-updates";
 import mobileAds from "react-native-google-mobile-ads";
 import {
   BannerAd,
@@ -394,8 +396,22 @@ export default App = () => {
   const [isTaxaFocused, setIsTaxaFocused] = useState(false);
   const [isRendaFocused, setIsRendaFocused] = useState(false);
 
+  useEffect(() => {
+    async function updateApp() {
+      const { isAvailable } = await Updates.checkForUpdateAsync();
+      if (isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync(); // depende da sua estratégia
+      }
+    }
+    updateApp();
+  }, []);
+
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      backgroundColor={"#333"}
+    >
       <GeneralStatusBarColor backgroundColor="#333" barStyle="light-content" />
       <Header>
         <HeaderTitle>Calcular Renda Passiva</HeaderTitle>
@@ -498,11 +514,11 @@ export default App = () => {
               </CalcGroup>
             </Row>
             <CalcLabel isFocused={isRendaFocused} field={renda}>
-              Valor da Renda Passiva Desejada ($):{" "}
+              Valor da Renda Passiva ($):{" "}
             </CalcLabel>
             <CalcInput
               ref={fifthInputRef}
-              placeholder={"Valor da Renda Passiva Desejada ($)"}
+              placeholder={"Valor da Renda Passiva ($)"}
               placeholderTextColor="#6D6D6D"
               onChangeText={(val) => setRenda(formatarValor(val))}
               onFocus={() => setIsRendaFocused(true)}
@@ -655,12 +671,24 @@ export default App = () => {
               </ResultLabelArea>
               <Divider />
             </ViewShot>
-            <ResultButton onPress={() => setIsFlipped(false)} bg={"#0dcaf0"}>
-              <ResultButtonText>Refazer Cálculo</ResultButtonText>
-            </ResultButton>
-            <ResultButton onPress={captureAndShareScreenshot} bg={"#ffc107"}>
-              <ResultButtonText>Compartilhar Resultado</ResultButtonText>
-            </ResultButton>
+            <Row>
+              <CalcGroup>
+                <ResultButton
+                  onPress={() => setIsFlipped(false)}
+                  bg={"#0dcaf0"}
+                >
+                  <ResultButtonText>Voltar</ResultButtonText>
+                </ResultButton>
+              </CalcGroup>
+              <CalcGroup>
+                <ResultButton
+                  onPress={captureAndShareScreenshot}
+                  bg={"#ffc107"}
+                >
+                  <ResultButtonText>Compartilhar</ResultButtonText>
+                </ResultButton>
+              </CalcGroup>
+            </Row>
           </ResultArea>
         </FlipCard>
       </Body>

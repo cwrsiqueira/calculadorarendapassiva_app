@@ -59,7 +59,7 @@ export const CalcArea = styled.View`
 export const CalcLabel = styled.Text`
   width: 90%;
   margin-left: 5px;
-  font-size: 12px;
+  font-size: 10px;
   color: ${(props) =>
     props.isFocused || props.field ? "#fff" : "transparent"};
   z-index: 9;
@@ -70,7 +70,7 @@ export const CalcInput = styled.TextInput`
   width: 90%;
   margin-bottom: 10px;
   color: #222;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 6px;
   padding-left: 10px;
   height: 48px;
@@ -90,7 +90,7 @@ export const CalcButton = styled.Pressable`
 export const CalcButtonText = styled.Text`
   text-align: center;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 export const ResultArea = styled.View`
@@ -137,7 +137,7 @@ export const ResultButton = styled.Pressable`
 export const ResultButtonText = styled.Text`
   text-align: center;
   color: #000;
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 export const Divider = styled.View`
@@ -151,8 +151,8 @@ export const Footer = styled.View`
   height: 100px;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
   background-color: #333;
+  margin-bottom: 10px;
 `;
 
 export const FooterText = styled.Text`
@@ -161,6 +161,11 @@ export const FooterText = styled.Text`
   background-color: #bb2d3b;
   padding: 10px 20px;
   border-radius: 6px;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin: 10px 0;
 `;
+
+// export const BannerAd = styled.View`
+//   background-color: #fff;
+//   width: 100%;
+//   height: 60px;
+// `;

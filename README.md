@@ -37,10 +37,12 @@ Press r | reload app
 
 npx expo-doctor
 
-### Build Android .apk (preview)
+### Build Android/ios .apk (preview)
 
 eas build -p android --profile preview
+eas build -p ios --profile preview
 
-### Build Android .aab
+### Build Android/ios .aab
 
 eas build --platform android
+eas build --platform ios

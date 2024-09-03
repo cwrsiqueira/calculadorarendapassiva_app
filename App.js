@@ -27,21 +27,23 @@ import {
 import { ScrollView, Share, ToastAndroid } from "react-native";
 import { A } from "@expo/html-elements";
 import GeneralStatusBarColor from "./src/components/GeneralStatusBarColor";
-import * as Updates from "expo-updates";
-import mobileAds from "react-native-google-mobile-ads";
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-} from "react-native-google-mobile-ads";
+// import * as Updates from "expo-updates";
+// import mobileAds from "react-native-google-mobile-ads";
+// import {
+//   BannerAd,
+//   BannerAdSize,
+//   TestIds,
+// } from "react-native-google-mobile-ads";
 
-mobileAds()
-  .initialize()
-  .then((adapterStatuses) => {});
+// mobileAds()
+//   .initialize()
+//   .then((adapterStatuses) => {
+//     // Initialization complete!
+//   });
 
-const adUnitId = __DEV__
-  ? TestIds.ADAPTIVE_BANNER
-  : "ca-app-pub-5865817649832793/5691178242";
+// const adUnitId = __DEV__
+//   ? TestIds.ADAPTIVE_BANNER
+//   : "ca-app-pub-5865817649832793/5691178242";
 
 export default App = () => {
   const [meses, setMeses] = useState("");
@@ -396,16 +398,16 @@ export default App = () => {
   const [isTaxaFocused, setIsTaxaFocused] = useState(false);
   const [isRendaFocused, setIsRendaFocused] = useState(false);
 
-  useEffect(() => {
-    async function updateApp() {
-      const { isAvailable } = await Updates.checkForUpdateAsync();
-      if (isAvailable) {
-        await Updates.fetchUpdateAsync();
-        await Updates.reloadAsync(); // depende da sua estratégia
-      }
-    }
-    updateApp();
-  }, []);
+  // useEffect(() => {
+  //   async function updateApp() {
+  //     const { isAvailable } = await Updates.checkForUpdateAsync();
+  //     if (isAvailable) {
+  //       await Updates.fetchUpdateAsync();
+  //       await Updates.reloadAsync(); // depende da sua estratégia
+  //     }
+  //   }
+  //   updateApp();
+  // }, []);
 
   return (
     <ScrollView
@@ -420,10 +422,10 @@ export default App = () => {
           {!isFlipped && "Deixe em branco o campo a ser calculado"}
         </HeaderSubtitle>
 
-        <BannerAd
+        {/* <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        />
+        /> */}
       </Header>
 
       <Body>
@@ -694,10 +696,10 @@ export default App = () => {
       </Body>
 
       <Footer>
-        <BannerAd
+        {/* <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        />
+        /> */}
         <FooterText>
           <A href="mailto:suporte@calcularrendapassiva.com.br?subject=Bugs, Críticas e Sugestões">
             Bugs, Críticas e Sugestões

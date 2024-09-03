@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ViewShot from "react-native-view-shot";
 import {
   Row,
@@ -28,20 +28,20 @@ import { ScrollView, Share, ToastAndroid } from "react-native";
 import { A } from "@expo/html-elements";
 import GeneralStatusBarColor from "./src/components/GeneralStatusBarColor";
 // import * as Updates from "expo-updates";
-// import mobileAds from "react-native-google-mobile-ads";
-// import {
-//   BannerAd,
-//   BannerAdSize,
-//   TestIds,
-// } from "react-native-google-mobile-ads";
+import mobileAds from "react-native-google-mobile-ads";
+import {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+} from "react-native-google-mobile-ads";
 
-// mobileAds()
-//   .initialize()
-//   .then((adapterStatuses) => {});
+mobileAds()
+  .initialize()
+  .then((adapterStatuses) => {});
 
-// const adUnitId = __DEV__
-//   ? TestIds.ADAPTIVE_BANNER
-//   : "ca-app-pub-5865817649832793/5691178242";
+const adUnitId = __DEV__
+  ? TestIds.ADAPTIVE_BANNER
+  : "ca-app-pub-5865817649832793/5691178242";
 
 // ca-app-pub-5865817649832793/6821705741 // segundo bloco de ads crp_ff usado no aplicativo do FlutterFlow
 
@@ -421,10 +421,10 @@ export default App = () => {
           {isFlipped && "Resultados"}
           {!isFlipped && "Deixe em branco o campo a ser calculado"}
         </HeaderSubtitle>
-        {/* <BannerAd
+        <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        /> */}
+        />
       </Header>
 
       <Body>
@@ -695,10 +695,10 @@ export default App = () => {
       </Body>
 
       <Footer>
-        {/* <BannerAd
+        <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        /> */}
+        />
         <FooterText>
           <A href="mailto:suporte@calcularrendapassiva.com.br?subject=Bugs, Críticas e Sugestões">
             Bugs, Críticas e Sugestões

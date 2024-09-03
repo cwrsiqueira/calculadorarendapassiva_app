@@ -408,6 +408,16 @@ export default App = () => {
   //   }
   //   updateApp();
   // }, []);
+  // useEffect(() => {
+  //   async function updateApp() {
+  //     const { isAvailable } = await Updates.checkForUpdateAsync();
+  //     if (isAvailable) {
+  //       await Updates.fetchUpdateAsync();
+  //       await Updates.reloadAsync(); // depende da sua estratégia
+  //     }
+  //   }
+  //   updateApp();
+  // }, []);
 
   return (
     <ScrollView
@@ -421,10 +431,11 @@ export default App = () => {
           {isFlipped && "Resultados"}
           {!isFlipped && "Deixe em branco o campo a ser calculado"}
         </HeaderSubtitle>
-
+        {/* <BannerAd
         {/* <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        /> */}
         /> */}
       </Header>
 
@@ -697,8 +708,10 @@ export default App = () => {
 
       <Footer>
         {/* <BannerAd
+        {/* <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        /> */}
         /> */}
         <FooterText>
           <A href="mailto:suporte@calcularrendapassiva.com.br?subject=Bugs, Críticas e Sugestões">
